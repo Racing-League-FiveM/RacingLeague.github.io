@@ -10,31 +10,33 @@
         margin: 0;
         font-family: 'Arial', sans-serif;
         background-color: #0b0b0b; /* Schwarz */
-        color: #ffffff;
+        color: #f2f2f2; /* Hellgrau für Lesbarkeit */
       }
 
       header {
         background-color: #ff1a1a; /* Rot */
-        padding: 20px;
+        padding: 25px 0;
         text-align: center;
+        box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
       }
 
       header h1 {
         margin: 0;
-        font-size: 2.2em;
+        font-size: 2.4em;
         letter-spacing: 1px;
       }
 
       nav {
-        background-color: #121212;
-        padding: 10px 0;
+        background-color: #141414;
+        padding: 12px 0;
         text-align: center;
+        border-bottom: 2px solid #ff1a1a;
       }
 
       nav a {
         color: #ffffff;
         text-decoration: none;
-        margin: 0 15px;
+        margin: 0 20px;
         font-weight: bold;
         transition: color 0.2s;
       }
@@ -44,42 +46,53 @@
       }
 
       main {
-        padding: 60px 20px;
         text-align: center;
+        padding: 80px 20px;
       }
 
       main h2 {
         color: #ff1a1a;
+        font-size: 2em;
+        margin-bottom: 20px;
       }
 
-      footer {
-        background-color: #121212;
-        color: #777;
-        text-align: center;
-        padding: 15px;
-        font-size: 0.9em;
-        margin-top: 60px;
+      main p {
+        color: #d9d9d9;
+        font-size: 1.1em;
+        max-width: 700px;
+        margin: 0 auto;
       }
 
       .button {
         display: inline-block;
         background-color: #ff1a1a;
         color: #fff;
-        padding: 10px 20px;
-        margin-top: 20px;
+        padding: 12px 25px;
+        margin-top: 30px;
         border-radius: 5px;
         text-decoration: none;
+        font-weight: bold;
         transition: background 0.3s;
       }
 
       .button:hover {
         background-color: #cc1414;
       }
+
+      footer {
+        background-color: #111;
+        color: #777;
+        text-align: center;
+        padding: 20px;
+        font-size: 0.9em;
+        margin-top: 60px;
+        border-top: 2px solid #ff1a1a;
+      }
     </style>
   </head>
   <body>
     <header>
-      <h1>🏁 Racing League</h1>
+      <h1>🏎️ Racing League</h1>
     </header>
 
     <nav>
@@ -91,7 +104,10 @@
 
     <main>
       <h2>Willkommen bei der Racing League</h2>
-      <p>Die offizielle Website für spannende Renn-Action und aktuelle Ergebnisse.</p>
+      <p>
+        Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
+        fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
+      </p>
       <a href="#" class="button">Mehr erfahren</a>
     </main>
 
