@@ -67,6 +67,7 @@
         display: block;
         margin: 20px auto;
         max-width: 300px; /* Anpassbare Breite des Logos */
+        max-height: 200px; /* Neue: Verhindert Übergröße */
         height: auto;
       }
 
@@ -111,7 +112,12 @@
 
     <main>
       <h2>Willkommen bei der Racing League</h2>
-      <img src="RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
+      <!-- Standard: Relativer Pfad – stelle sicher, Datei ist im selben Ordner -->
+      <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
+      
+      <!-- Alternative: Base64 einbetten (ersetze DATA:URI mit deinem Base64-Code, z.B. von base64-image.de) -->
+      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA... (dein voller Base64-String hier)" alt="Racing League Logo" class="logo"> -->
+      
       <p>
         Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
         fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
