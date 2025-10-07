@@ -31,6 +31,7 @@
         padding: 12px 0;
         text-align: center;
         border-bottom: 2px solid #ff1a1a;
+        position: relative; /* Für Dropdown-Positionierung */
       }
 
       nav a {
@@ -39,11 +40,48 @@
         margin: 0 20px;
         font-weight: bold;
         transition: color 0.2s;
-        cursor: pointer; /* Zeigt, dass Links klickbar sind */
+        cursor: pointer;
       }
 
       nav a:hover {
         color: #ff1a1a;
+      }
+
+      /* Hover-Dropdown für Teams */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #141414;
+        min-width: 120px; /* Kleiner als zuvor (160px) */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 5px;
+        top: 100%;
+        left: 0; /* Direkt unter Teams-Link */
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: #f2f2f2;
+        padding: 8px 12px; /* Kleineres Padding */
+        text-decoration: none;
+        display: block;
+        font-weight: normal;
+        font-size: 0.9em; /* Kleinere Schrift */
+        text-align: left;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #1e90ff; /* Blau bei Hover */
+        color: #fff;
       }
 
       main {
@@ -88,34 +126,39 @@
         background-color: #cc1414;
       }
 
-      /* Neue Teams-Sektion */
+      /* Teams-Sektion */
       .teams-section {
-        display: none; /* Versteckt standardmäßig */
+        display: none;
         max-width: 700px;
         margin: 0 auto;
       }
 
       .teams-section.active {
-        display: block; /* Sichtbar, wenn aktiv */
+        display: block;
       }
 
-      .teams-list {
-        list-style: none;
-        padding: 0;
-      }
-
-      .teams-list li {
+      /* Team-Details */
+      .team-details {
+        display: none;
         background-color: #141414;
-        padding: 15px;
-        margin: 10px 0;
+        padding: 20px;
         border-radius: 5px;
-        color: #f2f2f2;
-        font-size: 1.2em;
-        transition: background 0.3s;
+        margin-top: 20px;
       }
 
-      .teams-list li:hover {
-        background-color: #ff1a1a;
+      .team-details.active {
+        display: block;
+      }
+
+      .team-details h3 {
+        color: #ff1a1a;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      .team-details p {
+        color: #d9d9d9;
+        font-size: 1em;
       }
 
       footer {
@@ -136,13 +179,18 @@
 
     <nav>
       <a href="#" onclick="showSection('home')">Start</a>
-      <a href="#" onclick="showSection('teams')">Teams</a>
+      <div class="dropdown">
+        <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
+        <div class="dropdown-content">
+          <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
+        </div>
+      </div>
       <a href="#" onclick="showSection('home')">Ergebnisse</a>
       <a href="#" onclick="showSection('home')">Kontakt</a>
     </nav>
 
     <main>
-      <!-- Willkommen-Sektion (Standard) -->
+      <!-- Willkommen-Sektion -->
       <div id="home-section" class="section active">
         <h2>Willkommen bei der Racing League</h2>
         <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
@@ -153,12 +201,18 @@
         <a href="#" class="button">Mehr erfahren</a>
       </div>
 
-      <!-- Teams-Sektion (interaktiv) -->
+      <!-- Teams-Sektion -->
       <div id="teams-section" class="teams-section section">
         <h2>Unsere Teams</h2>
-        <ul class="teams-list">
-          <li>Team 1</li>
-        </ul>
+        <!-- Fiktiver Team-Eintrag -->
+        <div id="team1-details" class="team-details">
+          <h3>Team 1: Blitz Racing</h3>
+          <p>
+            <strong>Gründung:</strong> 2023<br>
+            <strong>Fahrer:</strong> Max Sturm, Lisa Blitz<br>
+            <strong>Beschreibung:</strong> Blitz Racing ist ein aufstrebendes Team, das für seine aggressiven Fahrstrategien und innovative Fahrzeugtechnik bekannt ist. Mit Sitz in München zielt das Team darauf ab, die Rennszene zu revolutionieren.
+          </p>
+        </div>
       </div>
     </main>
 
@@ -167,13 +221,20 @@
     </footer>
 
     <script>
-      function showSection(sectionId) {
-        // Alle Sektionen ausblenden
+      function showSection(sectionId, teamId = '') {
         document.querySelectorAll('.section').forEach(section => {
           section.classList.remove('active');
         });
-        // Gewählte Sektion anzeigen
         document.getElementById(`${sectionId}-section`).classList.add('active');
+
+        if (sectionId === 'teams') {
+          document.querySelectorAll('.team-details').forEach(detail => {
+            detail.classList.remove('active');
+          });
+          if (teamId) {
+            document.getElementById(`${teamId}-details`).classList.add('active');
+          }
+        }
       }
     </script>
   </body>
