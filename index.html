@@ -26,6 +26,7 @@
         font-size: 2.4em;
         letter-spacing: 1px;
         color: #fff; /* Standard-Schriftfarbe */
+        transition: color 0.3s; /* Übergang für Schriftfarbe */
       }
 
       nav {
@@ -86,7 +87,7 @@
       .dropdown-content a:nth-child(1):hover { background-color: #7c0000; } /* Team 1 */
       .dropdown-content a:nth-child(2):hover { background-color: #6102ae; } /* Team 2 */
       .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; } /* Team 3 */
-      .dropdown-content a:nth-child(4):hover { background-color: #00ffaf; color: #000000; } /* Team 4 mit schwarzer Schrift */
+      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; } /* Team 4 mit weißer Schrift */
 
       main {
         text-align: center;
@@ -182,11 +183,6 @@
         margin-bottom: 10px;
         padding: 5px 10px; /* Padding für den Farbhintergrund */
       }
-
-      .team-details p {
-        color: #d9d9d9;
-        font-size: 1em;
-      }
     </style>
   </head>
   <body>
@@ -259,7 +255,7 @@
         </div>
         <!-- Team 4 -->
         <div id="team4-details" class="team-details">
-          <h3 style="background-color: #00ffaf;">Team 4</h3>
+          <h3 style="background-color: #646464;">Team 4</h3>
           <p>
             <strong>Gründung:</strong> <br>
             <strong>Fahrer:</strong> <br>
@@ -306,9 +302,12 @@
         });
         document.getElementById(`${sectionId}-section`).classList.add('active');
 
-        // Header-Farbe zurücksetzen, wenn keine Team-ID
-        document.querySelector('header').style.backgroundColor = '#ff1a1a';
-        document.querySelector('header h1').style.color = '#fff';
+        // Header-Farbe und Schriftfarbe zurücksetzen
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        header.style.backgroundColor = '#ff1a1a';
+        headerH1.style.color = '#fff';
+        header.classList.remove('team4-header'); // Entferne team4-header Klasse
 
         if (sectionId === 'teams') {
           document.querySelectorAll('.team-details').forEach(detail => {
@@ -319,17 +318,17 @@
             // Header-Farbe an Team anpassen
             switch (teamId) {
               case 'team1':
-                document.querySelector('header').style.backgroundColor = '#7c0000';
+                header.style.backgroundColor = '#7c0000';
                 break;
               case 'team2':
-                document.querySelector('header').style.backgroundColor = '#6102ae';
+                header.style.backgroundColor = '#6102ae';
                 break;
               case 'team3':
-                document.querySelector('header').style.backgroundColor = '#ff8f00';
+                header.style.backgroundColor = '#ff8f00';
                 break;
               case 'team4':
-                document.querySelector('header').style.backgroundColor = '#00ffaf';
-                document.querySelector('header h1').style.color = '#000000'; // Schwarze Schrift für Team 4
+                header.style.backgroundColor = '#646464';
+                headerH1.style.color = '#fff'; // Weiße Schrift für Team 4
                 break;
             }
           } else {
@@ -350,8 +349,11 @@
           detail.classList.add('active');
         });
         // Header auf Standard zurücksetzen
-        document.querySelector('header').style.backgroundColor = '#ff1a1a';
-        document.querySelector('header h1').style.color = '#fff';
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        header.style.backgroundColor = '#ff1a1a';
+        headerH1.style.color = '#fff';
+        header.classList.remove('team4-header');
       }
     </script>
   </body>
