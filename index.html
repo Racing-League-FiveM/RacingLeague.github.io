@@ -14,16 +14,18 @@
       }
 
       header {
-        background-color: #ff1a1a; /* Rot */
+        background-color: #ff1a1a; /* Standard-Rot */
         padding: 25px 0;
         text-align: center;
         box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
+        transition: background-color 0.3s, color 0.3s; /* Übergang für Farbänderung */
       }
 
       header h1 {
         margin: 0;
         font-size: 2.4em;
         letter-spacing: 1px;
+        color: #fff; /* Standard-Schriftfarbe */
       }
 
       nav {
@@ -70,19 +72,21 @@
       }
 
       .dropdown-content a {
-        color: #f2f2f2;
+        color: #fff;
         padding: 8px 12px; /* Kleineres Padding */
         text-decoration: none;
         display: block;
         font-weight: normal;
         font-size: 0.9em; /* Kleinere Schrift */
         text-align: left;
+        transition: background-color 0.2s;
       }
 
-      .dropdown-content a:hover {
-        background-color: #1e90ff; /* Blau bei Hover */
-        color: #fff;
-      }
+      /* Team-spezifische Hover-Farben im Dropdown */
+      .dropdown-content a:nth-child(1):hover { background-color: #7c0000; } /* Team 1 */
+      .dropdown-content a:nth-child(2):hover { background-color: #6102ae; } /* Team 2 */
+      .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; } /* Team 3 */
+      .dropdown-content a:nth-child(4):hover { background-color: #00ffaf; color: #000000; } /* Team 4 mit schwarzer Schrift */
 
       main {
         text-align: center;
@@ -173,24 +177,15 @@
       }
 
       .team-details h3 {
-        color: #ff1a1a;
+        color: #fff; /* Weiße Schrift für bessere Lesbarkeit auf Farbhintergrund */
         font-size: 1.5em;
         margin-bottom: 10px;
+        padding: 5px 10px; /* Padding für den Farbhintergrund */
       }
 
       .team-details p {
         color: #d9d9d9;
         font-size: 1em;
-      }
-
-      footer {
-        background-color: #111;
-        color: #777;
-        text-align: center;
-        padding: 20px;
-        font-size: 0.9em;
-        margin-top: 60px;
-        border-top: 2px solid #ff1a1a;
       }
     </style>
   </head>
@@ -205,6 +200,9 @@
         <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
         <div class="dropdown-content">
           <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
+          <a href="#" onclick="showSection('teams', 'team2')">Team 2</a>
+          <a href="#" onclick="showSection('teams', 'team3')">Team 3</a>
+          <a href="#" onclick="showSection('teams', 'team4')">Team 4</a>
         </div>
       </div>
       <a href="#" onclick="showSection('results')">Ergebnisse</a>
@@ -220,19 +218,54 @@
           Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
           fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
         </p>
-        <a href="#" class="button">Mehr erfahren</a>
+        <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
       </div>
 
       <!-- Teams-Sektion -->
       <div id="teams-section" class="teams-section section">
         <h2>Unsere Teams</h2>
-        <!-- Fiktiver Team-Eintrag -->
+        <!-- Team 1 -->
         <div id="team1-details" class="team-details">
-          <h3>Team 1: Blitz Racing</h3>
+          <h3 style="background-color: #7c0000;">Team 1</h3>
           <p>
-            <strong>Gründung:</strong> 2023<br>
-            <strong>Fahrer:</strong> Max Sturm, Lisa Blitz<br>
-            <strong>Beschreibung:</strong> Blitz Racing ist ein aufstrebendes Team, das für seine aggressiven Fahrstrategien und innovative Fahrzeugtechnik bekannt ist. Mit Sitz in München zielt das Team darauf ab, die Rennszene zu revolutionieren.
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 2 -->
+        <div id="team2-details" class="team-details">
+          <h3 style="background-color: #6102ae;">Team 2</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 3 -->
+        <div id="team3-details" class="team-details">
+          <h3 style="background-color: #ff8f00;">Team 3</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 4 -->
+        <div id="team4-details" class="team-details">
+          <h3 style="background-color: #00ffaf;">Team 4</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
           </p>
         </div>
       </div>
@@ -255,7 +288,7 @@
         </p>
       </div>
 
-      <!-- Ergebnisse-Sektion (Platzhalter) -->
+      <!-- Ergebnisse-Sektion -->
       <div id="results-section" class="section">
         <h2>Ergebnisse</h2>
         <p>Hier werden bald die Ergebnisse angezeigt.</p>
@@ -273,14 +306,52 @@
         });
         document.getElementById(`${sectionId}-section`).classList.add('active');
 
+        // Header-Farbe zurücksetzen, wenn keine Team-ID
+        document.querySelector('header').style.backgroundColor = '#ff1a1a';
+        document.querySelector('header h1').style.color = '#fff';
+
         if (sectionId === 'teams') {
           document.querySelectorAll('.team-details').forEach(detail => {
             detail.classList.remove('active');
           });
           if (teamId) {
             document.getElementById(`${teamId}-details`).classList.add('active');
+            // Header-Farbe an Team anpassen
+            switch (teamId) {
+              case 'team1':
+                document.querySelector('header').style.backgroundColor = '#7c0000';
+                break;
+              case 'team2':
+                document.querySelector('header').style.backgroundColor = '#6102ae';
+                break;
+              case 'team3':
+                document.querySelector('header').style.backgroundColor = '#ff8f00';
+                break;
+              case 'team4':
+                document.querySelector('header').style.backgroundColor = '#00ffaf';
+                document.querySelector('header h1').style.color = '#000000'; // Schwarze Schrift für Team 4
+                break;
+            }
+          } else {
+            // Wenn direkt auf "Teams" geklickt, alle Teams anzeigen
+            document.querySelectorAll('.team-details').forEach(detail => {
+              detail.classList.add('active');
+            });
           }
         }
+      }
+
+      function showAllSections() {
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.add('active');
+        });
+        // Alle Teams anzeigen
+        document.querySelectorAll('.team-details').forEach(detail => {
+          detail.classList.add('active');
+        });
+        // Header auf Standard zurücksetzen
+        document.querySelector('header').style.backgroundColor = '#ff1a1a';
+        document.querySelector('header h1').style.color = '#fff';
       }
     </script>
   </body>
