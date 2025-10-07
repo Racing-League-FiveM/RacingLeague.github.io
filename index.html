@@ -39,6 +39,7 @@
         margin: 0 20px;
         font-weight: bold;
         transition: color 0.2s;
+        cursor: pointer; /* Zeigt, dass Links klickbar sind */
       }
 
       nav a:hover {
@@ -66,8 +67,8 @@
       .logo {
         display: block;
         margin: 20px auto;
-        max-width: 300px; /* Anpassbare Breite des Logos */
-        max-height: 200px; /* Neue: Verhindert Übergröße */
+        max-width: 300px;
+        max-height: 200px;
         height: auto;
       }
 
@@ -87,6 +88,36 @@
         background-color: #cc1414;
       }
 
+      /* Neue Teams-Sektion */
+      .teams-section {
+        display: none; /* Versteckt standardmäßig */
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .teams-section.active {
+        display: block; /* Sichtbar, wenn aktiv */
+      }
+
+      .teams-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .teams-list li {
+        background-color: #141414;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        color: #f2f2f2;
+        font-size: 1.2em;
+        transition: background 0.3s;
+      }
+
+      .teams-list li:hover {
+        background-color: #ff1a1a;
+      }
+
       footer {
         background-color: #111;
         color: #777;
@@ -100,33 +131,50 @@
   </head>
   <body>
     <header>
-      <h1>🏎️ Racing League</h1>
+      <h1>🏎️ Racing League 🚗</h1>
     </header>
 
     <nav>
-      <a href="#">Start</a>
-      <a href="#">Teams</a>
-      <a href="#">Ergebnisse</a>
-      <a href="#">Kontakt</a>
+      <a href="#" onclick="showSection('home')">Start</a>
+      <a href="#" onclick="showSection('teams')">Teams</a>
+      <a href="#" onclick="showSection('home')">Ergebnisse</a>
+      <a href="#" onclick="showSection('home')">Kontakt</a>
     </nav>
 
     <main>
-      <h2>Willkommen bei der Racing League</h2>
-      <!-- Standard: Relativer Pfad – stelle sicher, Datei ist im selben Ordner -->
-      <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
-      
-      <!-- Alternative: Base64 einbetten (ersetze DATA:URI mit deinem Base64-Code, z.B. von base64-image.de) -->
-      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA... (dein voller Base64-String hier)" alt="Racing League Logo" class="logo"> -->
-      
-      <p>
-        Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
-        fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
-      </p>
-      <a href="#" class="button">Mehr erfahren</a>
+      <!-- Willkommen-Sektion (Standard) -->
+      <div id="home-section" class="section active">
+        <h2>Willkommen bei der Racing League</h2>
+        <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
+        <p>
+          Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
+          fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
+        </p>
+        <a href="#" class="button">Mehr erfahren</a>
+      </div>
+
+      <!-- Teams-Sektion (interaktiv) -->
+      <div id="teams-section" class="teams-section section">
+        <h2>Unsere Teams</h2>
+        <ul class="teams-list">
+          <li>Team 1</li>
+        </ul>
+      </div>
     </main>
 
     <footer>
       © 2025 Racing League. Alle Rechte vorbehalten.
     </footer>
+
+    <script>
+      function showSection(sectionId) {
+        // Alle Sektionen ausblenden
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+        // Gewählte Sektion anzeigen
+        document.getElementById(`${sectionId}-section`).classList.add('active');
+      }
+    </script>
   </body>
 </html>
