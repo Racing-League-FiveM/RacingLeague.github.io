@@ -1,21 +1,102 @@
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg, #111, #222);
-    color: white;
-    text-align: center;
-    padding: 60px;
-  }
-  h1 {
-    color: #ff3b3b;
-    font-size: 2.5em;
-  }
-  p {
-    color: #ddd;
-  }
-  footer {
-    margin-top: 50px;
-    font-size: 0.9em;
-    color: #888;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Racing League</title>
+    <style>
+      /* ====== Grundlayout ====== */
+      body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #0b0b0b; /* Schwarz */
+        color: #ffffff;
+      }
+
+      header {
+        background-color: #ff1a1a; /* Rot */
+        padding: 20px;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.2em;
+        letter-spacing: 1px;
+      }
+
+      nav {
+        background-color: #121212;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+        transition: color 0.2s;
+      }
+
+      nav a:hover {
+        color: #ff1a1a;
+      }
+
+      main {
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      main h2 {
+        color: #ff1a1a;
+      }
+
+      footer {
+        background-color: #121212;
+        color: #777;
+        text-align: center;
+        padding: 15px;
+        font-size: 0.9em;
+        margin-top: 60px;
+      }
+
+      .button {
+        display: inline-block;
+        background-color: #ff1a1a;
+        color: #fff;
+        padding: 10px 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+
+      .button:hover {
+        background-color: #cc1414;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🏁 Racing League</h1>
+    </header>
+
+    <nav>
+      <a href="#">Start</a>
+      <a href="#">Teams</a>
+      <a href="#">Ergebnisse</a>
+      <a href="#">Kontakt</a>
+    </nav>
+
+    <main>
+      <h2>Willkommen bei der Racing League</h2>
+      <p>Die offizielle Website für spannende Renn-Action und aktuelle Ergebnisse.</p>
+      <a href="#" class="button">Mehr erfahren</a>
+    </main>
+
+    <footer>
+      © 2025 Racing League. Alle Rechte vorbehalten.
+    </footer>
+  </body>
+</html>
