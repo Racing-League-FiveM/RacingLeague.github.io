@@ -574,14 +574,21 @@
       function updatePoints(index, value) {
         const newPoints = parseInt(value) || 0;
         championshipData[index].punkte = newPoints;
-        // Keine Speicherung in LocalStorage, nur im RAM
+        // Keine sofortige Sortierung, erst beim Speichern
       }
 
       function saveChanges() {
+        // Sortiere nach Punkten (absteigend)
+        championshipData.sort((a, b) => b.punkte - a.punkte);
+        // Aktualisiere Platzierungen
+        championshipData.forEach((row, index) => {
+          row.platz = index + 1;
+        });
+
         isEditMode = false;
         document.getElementById('save-button').style.display = 'none'; // Speichern-Button ausblenden
         renderTable();
-        alert('Änderungen gespeichert!');
+        alert('Änderungen gespeichert! Tabelle nach Punkten sortiert.');
       }
 
       function renderTable() {
@@ -593,17 +600,4 @@
             <td>${row.platz}</td>
             <td>${row.fahrer}</td>
             <td>${row.team}</td>
-            <td class="points">${row.punkte}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-        if (isEditMode) {
-          makeTableEditable();
-        }
-      }
-
-      // Initiale Tabelle rendern
-      renderTable();
-    </script>
-  </body>
-</html>
+            <td class="points">${row.punkte}<
