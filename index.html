@@ -120,7 +120,7 @@
         background-color: #ff1a1a;
         color: #fff;
         padding: 12px 25px;
-        margin-top: 30px;
+        margin: 10px;
         border-radius: 5px;
         text-decoration: none;
         font-weight: bold;
@@ -133,11 +133,19 @@
 
       .update-button {
         background-color: #ff8f00;
-        margin: 10px;
       }
 
       .update-button:hover {
         background-color: #cc7000;
+      }
+
+      .save-button {
+        background-color: #28a745; /* Grün */
+        display: none; /* Standardmäßig ausgeblendet */
+      }
+
+      .save-button:hover {
+        background-color: #218838; /* Dunkleres Grün bei Hover */
       }
 
       /* Sektionen */
@@ -366,6 +374,7 @@
       <div id="results-section" class="section">
         <h2>Fahrer-Championship</h2>
         <button class="button update-button" onclick="requestUpdate()">Tabelle bearbeiten</button>
+        <button class="button save-button" id="save-button" onclick="saveChanges()">Speichern</button>
         <table class="results-table" id="championship-table">
           <thead>
             <tr>
@@ -547,6 +556,7 @@
           isEditMode = true;
           closeModal();
           makeTableEditable();
+          document.getElementById('save-button').style.display = 'inline-block'; // Speichern-Button anzeigen
           alert('Bearbeitungsmodus aktiviert! Klicken Sie auf Punkte, um sie zu ändern.');
         } else {
           alert('Falsches Passwort!');
@@ -565,7 +575,13 @@
         const newPoints = parseInt(value) || 0;
         championshipData[index].punkte = newPoints;
         // Keine Speicherung in LocalStorage, nur im RAM
+      }
+
+      function saveChanges() {
+        isEditMode = false;
+        document.getElementById('save-button').style.display = 'none'; // Speichern-Button ausblenden
         renderTable();
+        alert('Änderungen gespeichert!');
       }
 
       function renderTable() {
