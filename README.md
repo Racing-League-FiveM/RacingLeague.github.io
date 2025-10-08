@@ -1,2 +1,2 @@
 # RacingLeague.github.io
-Test Website für die Racing League 
+Das hier ist sozusagen die Website der Racing League.
