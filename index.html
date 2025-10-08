@@ -298,24 +298,6 @@
         </div>
       </div>
 
-      <!-- Kontakt-Sektion -->
-      <div id="contact-section" class="contact-section section">
-        <h2>Kontakt</h2>
-        <h3>Unser Team:</h3>
-        <p>
-          <strong>COO - Chief Operating Officer:</strong><br>
-          Marijo Mandzukic<br>
-          Geboren: 13.10.2000<br>
-          Tel.: -
-        </p>
-        <p>
-          <strong>Race Director:</strong><br>
-          Dominic Martinéz<br>
-          Geb.: 15.06.2004<br>
-          Tel.: -
-        </p>
-      </div>
-
       <!-- Ergebnisse-Sektion -->
       <div id="results-section" class="section">
         <h2>Fahrer-Championship</h2>
@@ -351,6 +333,24 @@
             <tr><td>20</td><td>Fahrer 20</td><td>Team 4</td><td>5</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Kontakt-Sektion -->
+      <div id="contact-section" class="contact-section section">
+        <h2>Kontakt</h2>
+        <h3>Unser Team:</h3>
+        <p>
+          <strong>COO - Chief Operating Officer:</strong><br>
+          Marijo Mandzukic<br>
+          Geboren: 13.10.2000<br>
+          Tel.: -
+        </p>
+        <p>
+          <strong>Race Director:</strong><br>
+          Dominic Martinéz<br>
+          Geb.: 15.06.2004<br>
+          Tel.: -
+        </p>
       </div>
     </main>
 
@@ -409,14 +409,22 @@
         });
         // Alle Teams anzeigen
         document.querySelectorAll('.team-details').forEach(detail => {
-          detail.classList.add('active');
+          detail.classList.remove('active'); // Nur Team 1 anzeigen
         });
+        document.getElementById('team1-details').classList.add('active');
+
         // Header auf Standard zurücksetzen
         const header = document.querySelector('header');
         const headerH1 = document.querySelector('header h1');
         header.style.backgroundColor = '#ff1a1a';
         headerH1.style.color = '#fff';
         header.classList.remove('team4-header');
+
+        // Automatisches Scrollen zur Teams-Sektion auf mobilen Geräten
+        if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
+          const teamsSection = document.getElementById('teams-section');
+          teamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     </script>
   </body>
