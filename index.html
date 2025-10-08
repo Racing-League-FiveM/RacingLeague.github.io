@@ -9,12 +9,12 @@
       body {
         margin: 0;
         font-family: 'Arial', sans-serif;
-        background-color: #0b0b0b; /* Schwarz */
-        color: #f2f2f2; /* Hellgrau für Lesbarkeit */
+        background-color: #0b0b0b;
+        color: #f2f2f2;
       }
 
       header {
-        background-color: #ff1a1a; /* Standard-Rot */
+        background-color: #ff1a1a;
         padding: 25px 0;
         text-align: center;
         box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
@@ -50,6 +50,7 @@
         color: #ff1a1a;
       }
 
+      /* Hover-Dropdown für Teams */
       .dropdown {
         position: relative;
         display: inline-block;
@@ -82,10 +83,11 @@
         transition: background-color 0.2s;
       }
 
-      .dropdown-content a:nth-child(1):hover { background-color: #7c0000; } /* Team 1 */
-      .dropdown-content a:nth-child(2):hover { background-color: #6102ae; } /* Team 2 */
-      .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; } /* Team 3 */
-      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; } /* Team 4 */
+      /* Team-spezifische Hover-Farben im Dropdown */
+      .dropdown-content a:nth-child(1):hover { background-color: #7c0000; }
+      .dropdown-content a:nth-child(2):hover { background-color: #6102ae; }
+      .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; }
+      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; }
 
       main {
         text-align: center;
@@ -118,7 +120,7 @@
         background-color: #ff1a1a;
         color: #fff;
         padding: 12px 25px;
-        margin: 10px;
+        margin-top: 30px;
         border-radius: 5px;
         text-decoration: none;
         font-weight: bold;
@@ -129,6 +131,7 @@
         background-color: #cc1414;
       }
 
+      /* Sektionen */
       .section {
         display: none;
       }
@@ -137,11 +140,13 @@
         display: block;
       }
 
+      /* Teams-Sektion */
       .teams-section {
         max-width: 700px;
         margin: 0 auto;
       }
 
+      /* Kontakt-Sektion */
       .contact-section {
         max-width: 700px;
         margin: 0 auto;
@@ -159,6 +164,7 @@
         margin: 5px 0;
       }
 
+      /* Team-Details */
       .team-details {
         display: none;
         background-color: #141414;
@@ -176,6 +182,11 @@
         font-size: 1.5em;
         margin-bottom: 10px;
         padding: 5px 10px;
+      }
+
+      .team-details p {
+        color: #d9d9d9;
+        font-size: 1em;
       }
 
       .results-table {
@@ -216,18 +227,18 @@
     </header>
 
     <nav>
-      <a href="#" onclick="showSection('home')">Start</a>
+      <a href="#" onclick="playClickSound(); showSection('home')">Start</a>
       <div class="dropdown">
-        <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
+        <a href="#" class="dropbtn" onclick="playClickSound(); showSection('teams')">Teams</a>
         <div class="dropdown-content">
-          <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
-          <a href="#" onclick="showSection('teams', 'team2')">Team 2</a>
-          <a href="#" onclick="showSection('teams', 'team3')">Team 3</a>
-          <a href="#" onclick="showSection('teams', 'team4')">Team 4</a>
+          <a href="#" onclick="playClickSound(); showSection('teams', 'team1')">Team 1</a>
+          <a href="#" onclick="playClickSound(); showSection('teams', 'team2')">Team 2</a>
+          <a href="#" onclick="playClickSound(); showSection('teams', 'team3')">Team 3</a>
+          <a href="#" onclick="playClickSound(); showSection('teams', 'team4')">Team 4</a>
         </div>
       </div>
-      <a href="#" onclick="showSection('results')">Ergebnisse</a>
-      <a href="#" onclick="showSection('contact')">Kontakt</a>
+      <a href="#" onclick="playClickSound(); showSection('results')">Ergebnisse</a>
+      <a href="#" onclick="playClickSound(); showSection('contact')">Kontakt</a>
     </nav>
 
     <main>
@@ -239,7 +250,7 @@
           Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
           fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
         </p>
-        <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
+        <a href="#" class="button" onclick="playClickSound(); showAllSections()">Mehr erfahren</a>
       </div>
 
       <!-- Teams-Sektion -->
@@ -320,7 +331,7 @@
             <tr><td>14</td><td>Fahrer 14</td><td>Team 2</td><td>60</td></tr>
             <tr><td>15</td><td>Fahrer 15</td><td>Team 3</td><td>50</td></tr>
             <tr><td>16</td><td>Fahrer 16</td><td>Team 4</td><td>40</td></tr>
-            <tr><td>17</td><td>Fahrer 17</td><td>Team 1</td><td>60</td></tr>
+            <tr><td>17</td><td>Fahrer 17</td><td>Team 1</td><td>30</td></tr>
             <tr><td>18</td><td>Fahrer 18</td><td>Team 2</td><td>20</td></tr>
             <tr><td>19</td><td>Fahrer 19</td><td>Team 3</td><td>10</td></tr>
             <tr><td>20</td><td>Fahrer 20</td><td>Team 4</td><td>5</td></tr>
@@ -329,7 +340,7 @@
       </div>
 
       <!-- Kontakt-Sektion -->
-      <div id="contact-section" class="contact-section section">
+      <div id="contact-section" class="section">
         <h2>Kontakt</h2>
         <h3>Unser Team:</h3>
         <p>
@@ -352,6 +363,11 @@
     <footer>
       © 2025 Racing League. Alle Rechte vorbehalten.
     </footer>
+
+    <audio id="clickSound">
+      <source src="./click.mp3" type="audio/mpeg">
+      Dein Browser unterstützt das Audio-Element nicht.
+    </audio>
 
     <script>
       // Initiale Daten im Speicher (nicht persistent)
@@ -389,7 +405,6 @@
         const headerH1 = document.querySelector('header h1');
         header.style.backgroundColor = '#ff1a1a';
         headerH1.style.color = '#fff';
-        header.classList.remove('team4-header');
 
         if (sectionId === 'teams') {
           document.querySelectorAll('.team-details').forEach(detail => {
@@ -432,7 +447,6 @@
         const headerH1 = document.querySelector('header h1');
         header.style.backgroundColor = '#ff1a1a';
         headerH1.style.color = '#fff';
-        header.classList.remove('team4-header');
 
         if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
           const teamsSection = document.getElementById('teams-section');
@@ -461,6 +475,14 @@
         row.platz = index + 1;
       });
       renderTable();
+
+      // Soundeffekt-Funktion
+      function playClickSound() {
+        const sound = document.getElementById('clickSound');
+        sound.play().catch(error => {
+          console.log("Sound konnte nicht abgespielt werden: ", error);
+        });
+      }
     </script>
   </body>
 </html>
