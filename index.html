@@ -285,22 +285,6 @@
         padding: 5px 0;
         border-bottom: 1px solid #333;
       }
-
-      /* Sound-Regler Styling */
-      .sound-control {
-        margin: 10px auto;
-        text-align: center;
-      }
-
-      .sound-control label {
-        color: #d9d9d9;
-        margin-right: 10px;
-      }
-
-      .sound-control input[type="range"] {
-        width: 100px;
-        vertical-align: middle;
-      }
     </style>
   </head>
   <body>
@@ -320,9 +304,9 @@
         </div>
       </div>
       <a href="#" onclick="showSection('results')">Ergebnisse</a>
-      <a href="#" onclick="showSection('bored')">Langeweile?</a>
-      <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
       <a href="#" onclick="showSection('legend')">Werde eine Legende!</a>
+      <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
+      <a href="#" onclick="showSection('bored')">Langeweile?</a>
       <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
 
@@ -332,8 +316,7 @@
         <h2>Willkommen bei der Racing League</h2>
         <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
         <p>
-          Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
-          fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
+          Bereit für den Nervenkitzel der Geschwindigkeit? Die Racing League öffnet ihre Tore für alle, die das Adrenalin der Rennstrecke spüren wollen! Tauche ein in die Welt der hochkarätigen Teams, atemberaubender Rennen und packender Ergebnisse. Hier beginnt deine Reise – schnall dich an und entdecke, was dich erwartet!
         </p>
         <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
       </div>
@@ -425,11 +408,6 @@
           <h3>Persönlicher Highscore</h3>
           <ul id="high-scores-list"></ul>
         </div>
-        <div class="sound-control">
-          <label for="volume">Lautstärke:</label>
-          <input type="range" id="volume" name="volume" min="0" max="100" value="5" oninput="document.getElementById('backgroundMusic').volume = this.value / 100">
-        </div>
-        <audio id="backgroundMusic" src="snakebackground.mp3" loop></audio>
       </div>
 
       <!-- Sponsoren-Sektion -->
@@ -537,13 +515,10 @@
         } else if (sectionId === 'bored') {
           document.getElementById('game-canvas').style.display = 'block';
           document.getElementById('game-status').style.display = 'block';
-          // Musik wird bei Spielstart aktiviert
           resetSnake();
         } else {
           document.getElementById('game-canvas').style.display = 'none';
           document.getElementById('game-status').style.display = 'none';
-          document.getElementById('backgroundMusic').pause();
-          document.getElementById('backgroundMusic').currentTime = 0;
         }
       }
 
@@ -567,11 +542,9 @@
           teamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Snake und Musik nicht anzeigen
+        // Snake nicht anzeigen
         document.getElementById('game-canvas').style.display = 'none';
         document.getElementById('game-status').style.display = 'none';
-        document.getElementById('backgroundMusic').pause();
-        document.getElementById('backgroundMusic').currentTime = 0;
       }
 
       function renderTable() {
@@ -596,7 +569,6 @@
         if (game === 'snake') {
           document.getElementById('game-canvas').style.display = 'block';
           document.getElementById('game-status').style.display = 'block';
-          // Musik wird bei Spielstart aktiviert
           resetSnake();
         }
       }
@@ -710,11 +682,6 @@
         clearInterval(gameIntervalSnake);
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
         generateFood();
-        // Versuche, die Musik zu starten, mit Fehlerbehandlung
-        const music = document.getElementById('backgroundMusic');
-        music.play().catch(error => {
-          console.log("Autoplay blockiert: Interagiere mit der Seite (z. B. Klick), um die Musik zu starten.", error);
-        });
       }
 
       function endGame() {
@@ -740,7 +707,7 @@
       });
       renderTable();
       initSnake();
-      // Kein automatisches Anzeigen von Snake oder Musik hier
+      // Kein automatisches Anzeigen von Snake hier
       updateHighScores();
     </script>
   </body>
