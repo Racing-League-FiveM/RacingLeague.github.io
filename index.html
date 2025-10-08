@@ -513,9 +513,8 @@
         });
         // Alle Teams anzeigen
         document.querySelectorAll('.team-details').forEach(detail => {
-          detail.classList.remove('active'); // Nur Team 1 anzeigen
+          detail.classList.add('active'); // Alle Teams sichtbar machen
         });
-        document.getElementById('team1-details').classList.add('active');
 
         // Header auf Standard zurücksetzen
         const header = document.querySelector('header');
