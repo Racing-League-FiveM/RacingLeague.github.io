@@ -183,6 +183,38 @@
         margin-bottom: 10px;
         padding: 5px 10px; /* Padding für den Farbhintergrund */
       }
+
+      /* Tabelle für Fahrer-Championship */
+      .results-table {
+        max-width: 700px;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #141414;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .results-table th,
+      .results-table td {
+        padding: 12px;
+        text-align: left;
+        color: #d9d9d9;
+        border-bottom: 1px solid #333;
+      }
+
+      .results-table th {
+        background-color: #ff1a1a;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .results-table tr:nth-child(even) {
+        background-color: #1a1a1a;
+      }
+
+      .results-table tr:hover {
+        background-color: #2a2a2a;
+      }
     </style>
   </head>
   <body>
@@ -286,8 +318,39 @@
 
       <!-- Ergebnisse-Sektion -->
       <div id="results-section" class="section">
-        <h2>Ergebnisse</h2>
-        <p>Hier werden bald die Ergebnisse angezeigt.</p>
+        <h2>Fahrer-Championship</h2>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Platz</th>
+              <th>Fahrer</th>
+              <th>Team</th>
+              <th>Punkte</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Fahrer 1</td><td>Team 1</td><td>325</td></tr>
+            <tr><td>2</td><td>Fahrer 2</td><td>Team 2</td><td>290</td></tr>
+            <tr><td>3</td><td>Fahrer 3</td><td>Team 3</td><td>260</td></tr>
+            <tr><td>4</td><td>Fahrer 4</td><td>Team 4</td><td>230</td></tr>
+            <tr><td>5</td><td>Fahrer 5</td><td>Team 1</td><td>200</td></tr>
+            <tr><td>6</td><td>Fahrer 6</td><td>Team 2</td><td>180</td></tr>
+            <tr><td>7</td><td>Fahrer 7</td><td>Team 3</td><td>160</td></tr>
+            <tr><td>8</td><td>Fahrer 8</td><td>Team 4</td><td>140</td></tr>
+            <tr><td>9</td><td>Fahrer 9</td><td>Team 1</td><td>120</td></tr>
+            <tr><td>10</td><td>Fahrer 10</td><td>Team 2</td><td>100</td></tr>
+            <tr><td>11</td><td>Fahrer 11</td><td>Team 3</td><td>90</td></tr>
+            <tr><td>12</td><td>Fahrer 12</td><td>Team 4</td><td>80</td></tr>
+            <tr><td>13</td><td>Fahrer 13</td><td>Team 1</td><td>70</td></tr>
+            <tr><td>14</td><td>Fahrer 14</td><td>Team 2</td><td>60</td></tr>
+            <tr><td>15</td><td>Fahrer 15</td><td>Team 3</td><td>50</td></tr>
+            <tr><td>16</td><td>Fahrer 16</td><td>Team 4</td><td>40</td></tr>
+            <tr><td>17</td><td>Fahrer 17</td><td>Team 1</td><td>30</td></tr>
+            <tr><td>18</td><td>Fahrer 18</td><td>Team 2</td><td>20</td></tr>
+            <tr><td>19</td><td>Fahrer 19</td><td>Team 3</td><td>10</td></tr>
+            <tr><td>20</td><td>Fahrer 20</td><td>Team 4</td><td>5</td></tr>
+          </tbody>
+        </table>
       </div>
     </main>
 
