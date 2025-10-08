@@ -440,7 +440,20 @@
       <!-- Werde eine Legende!-Sektion -->
       <div id="legend-section" class="section">
         <h2>Werde eine Legende!</h2>
-        <p>Diese Funktion wird später verfügbar sein.</p>
+        <p>
+          Der Weg zur Legende wird lang, aber jeder hat doch auch einmal klein angefangen, oder? <br>
+          Solltest du dich entschieden haben, deine Karriere bei der Racing League zu beginnen, wirst du zunächst auf die Probe gestellt. Wir testen dich gleich zu Beginn in einem entscheidenden Punkt: deiner Fahrfähigkeit. <br>
+          Um überhaupt eingestellt zu werden, wird deine Pace auf der Strecke ermittelt – wir prüfen, wie schnell du deine Runden fahren kannst und wie konstant dein Durchschnitt ist. Solltest du dabei unsere Kriterien noch nicht erfüllen, brauchst du keine Angst zu haben – nicht jeder schafft es sofort. <br>
+          Wenn du dich während der Probezeit respektvoll verhältst, darfst du die <strong>Rookie-Prüfung</strong> ablegen – die erste Hürde, bevor es richtig auf die Strecke geht. In dieser Prüfung wirst du in folgenden Bereichen getestet:
+        </p>
+        <ul>
+          <li>Flaggenkunde</li>
+          <li>Situationsfragen</li>
+          <li>Allgemeinwissen</li>
+        </ul>
+        <p>
+          Bestehst du die Rookie-Prüfung, darfst du endlich in einem Rennen ans Steuer und zeigen, was in dir steckt!
+        </p>
       </div>
 
       <!-- Kontakt-Sektion -->
@@ -697,9 +710,10 @@
         clearInterval(gameIntervalSnake);
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
         generateFood();
-        // Starte die Musik beim Neustart
-        document.getElementById('backgroundMusic').play().catch(error => {
-          console.log("Autoplay verweigert: ", error);
+        // Versuche, die Musik zu starten, mit Fehlerbehandlung
+        const music = document.getElementById('backgroundMusic');
+        music.play().catch(error => {
+          console.log("Autoplay blockiert: Interagiere mit der Seite (z. B. Klick), um die Musik zu starten.", error);
         });
       }
 
