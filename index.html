@@ -18,15 +18,15 @@
         padding: 25px 0;
         text-align: center;
         box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
-        transition: background-color 0.3s, color 0.3s; /* Übergang für Farbänderung */
+        transition: background-color 0.3s, color 0.3s;
       }
 
       header h1 {
         margin: 0;
         font-size: 2.4em;
         letter-spacing: 1px;
-        color: #fff; /* Standard-Schriftfarbe */
-        transition: color 0.3s; /* Übergang für Schriftfarbe */
+        color: #fff;
+        transition: color 0.3s;
       }
 
       nav {
@@ -34,7 +34,7 @@
         padding: 12px 0;
         text-align: center;
         border-bottom: 2px solid #ff1a1a;
-        position: relative; /* Für Dropdown-Positionierung */
+        position: relative;
       }
 
       nav a {
@@ -60,12 +60,12 @@
         display: none;
         position: absolute;
         background-color: #141414;
-        min-width: 120px; /* Kleiner als zuvor (160px) */
+        min-width: 120px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         z-index: 1;
         border-radius: 5px;
         top: 100%;
-        left: 0; /* Direkt unter Teams-Link */
+        left: 0;
       }
 
       .dropdown:hover .dropdown-content {
@@ -74,20 +74,19 @@
 
       .dropdown-content a {
         color: #fff;
-        padding: 8px 12px; /* Kleineres Padding */
+        padding: 8px 12px;
         text-decoration: none;
         display: block;
         font-weight: normal;
-        font-size: 0.9em; /* Kleinere Schrift */
+        font-size: 0.9em;
         text-align: left;
         transition: background-color 0.2s;
       }
 
-      /* Team-spezifische Hover-Farben im Dropdown */
       .dropdown-content a:nth-child(1):hover { background-color: #7c0000; } /* Team 1 */
       .dropdown-content a:nth-child(2):hover { background-color: #6102ae; } /* Team 2 */
       .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; } /* Team 3 */
-      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; } /* Team 4 mit weißer Schrift */
+      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; } /* Team 4 */
 
       main {
         text-align: center;
@@ -145,7 +144,7 @@
       }
 
       .save-button:hover {
-        background-color: #218838; /* Dunkleres Grün bei Hover */
+        background-color: #218838; /* Dunkleres Grün */
       }
 
       /* Sektionen */
@@ -195,10 +194,10 @@
       }
 
       .team-details h3 {
-        color: #fff; /* Weiße Schrift für bessere Lesbarkeit auf Farbhintergrund */
+        color: #fff;
         font-size: 1.5em;
         margin-bottom: 10px;
-        padding: 5px 10px; /* Padding für den Farbhintergrund */
+        padding: 5px 10px;
       }
 
       /* Tabelle für Fahrer-Championship */
@@ -287,6 +286,40 @@
       .close:hover {
         color: #ff1a1a;
       }
+
+      /* Tetris-Sektion */
+      .tetris-section {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .tetris-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #141414;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      #tetris-canvas {
+        border: 2px solid #ff1a1a;
+      }
+
+      .tetris-score {
+        color: #d9d9d9;
+        font-size: 1.2em;
+        margin: 10px 0;
+      }
+
+      .tetris-button {
+        background-color: #ff1a1a;
+      }
+
+      .tetris-button:hover {
+        background-color: #cc1414;
+      }
     </style>
   </head>
   <body>
@@ -306,6 +339,7 @@
         </div>
       </div>
       <a href="#" onclick="showSection('results')">Ergebnisse</a>
+      <a href="#" onclick="showSection('boredom')">Langeweile?</a>
       <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
 
@@ -409,6 +443,16 @@
         </table>
       </div>
 
+      <!-- Langeweile-Sektion (Tetris) -->
+      <div id="boredom-section" class="tetris-section section">
+        <h2>Langeweile? Spiele Tetris!</h2>
+        <div class="tetris-container">
+          <canvas id="tetris-canvas" width="240" height="480"></canvas>
+          <div class="tetris-score">Punkte: <span id="tetris-score">0</span></div>
+          <button class="button tetris-button" onclick="startTetris()">Spiel starten</button>
+        </div>
+      </div>
+
       <!-- Kontakt-Sektion -->
       <div id="contact-section" class="contact-section section">
         <h2>Kontakt</h2>
@@ -444,11 +488,10 @@
     </footer>
 
     <script>
-      // Passwort (hartcodiert, nur für Demo)
+      // === Championship-Tabelle ===
       const CORRECT_PASSWORD = 'racing2025';
       let isEditMode = false;
 
-      // Initiale Daten im Speicher (nicht persistent)
       let championshipData = [
         {platz: 1, fahrer: 'Fahrer 1', team: 'Team 1', punkte: 325},
         {platz: 2, fahrer: 'Fahrer 2', team: 'Team 2', punkte: 290},
@@ -483,7 +526,7 @@
         const headerH1 = document.querySelector('header h1');
         header.style.backgroundColor = '#ff1a1a';
         headerH1.style.color = '#fff';
-        header.classList.remove('team4-header'); // Entferne team4-header Klasse
+        header.classList.remove('team4-header');
 
         if (sectionId === 'teams') {
           document.querySelectorAll('.team-details').forEach(detail => {
@@ -491,7 +534,6 @@
           });
           if (teamId) {
             document.getElementById(`${teamId}-details`).classList.add('active');
-            // Header-Farbe an Team anpassen
             switch (teamId) {
               case 'team1':
                 header.style.backgroundColor = '#7c0000';
@@ -504,11 +546,10 @@
                 break;
               case 'team4':
                 header.style.backgroundColor = '#646464';
-                headerH1.style.color = '#fff'; // Weiße Schrift für Team 4
+                headerH1.style.color = '#fff';
                 break;
             }
           } else {
-            // Wenn direkt auf "Teams" geklickt, alle Teams anzeigen
             document.querySelectorAll('.team-details').forEach(detail => {
               detail.classList.add('active');
             });
@@ -520,26 +561,23 @@
         document.querySelectorAll('.section').forEach(section => {
           section.classList.add('active');
         });
-        // Alle Teams anzeigen
         document.querySelectorAll('.team-details').forEach(detail => {
-          detail.classList.add('active'); // Alle Teams sichtbar machen
+          detail.classList.add('active');
         });
 
-        // Header auf Standard zurücksetzen
         const header = document.querySelector('header');
         const headerH1 = document.querySelector('header h1');
         header.style.backgroundColor = '#ff1a1a';
         headerH1.style.color = '#fff';
         header.classList.remove('team4-header');
 
-        // Automatisches Scrollen zur Teams-Sektion auf mobilen Geräten
         if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
           const teamsSection = document.getElementById('teams-section');
           teamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
 
-      // Modal-Funktionen
+      // === Championship-Tabelle ===
       function requestUpdate() {
         document.getElementById('password-modal').style.display = 'block';
         document.getElementById('password-input').focus();
@@ -556,7 +594,7 @@
           isEditMode = true;
           closeModal();
           makeTableEditable();
-          document.getElementById('save-button').style.display = 'inline-block'; // Speichern-Button anzeigen
+          document.getElementById('save-button').style.display = 'inline-block';
           alert('Bearbeitungsmodus aktiviert! Klicken Sie auf Punkte, um sie zu ändern.');
         } else {
           alert('Falsches Passwort!');
@@ -574,19 +612,16 @@
       function updatePoints(index, value) {
         const newPoints = parseInt(value) || 0;
         championshipData[index].punkte = newPoints;
-        // Keine sofortige Sortierung, erst beim Speichern
       }
 
       function saveChanges() {
-        // Sortiere nach Punkten (absteigend)
         championshipData.sort((a, b) => b.punkte - a.punkte);
-        // Aktualisiere Platzierungen
         championshipData.forEach((row, index) => {
           row.platz = index + 1;
         });
 
         isEditMode = false;
-        document.getElementById('save-button').style.display = 'none'; // Speichern-Button ausblenden
+        document.getElementById('save-button').style.display = 'none';
         renderTable();
         alert('Änderungen gespeichert! Tabelle nach Punkten sortiert.');
       }
@@ -596,8 +631,4 @@
         tbody.innerHTML = '';
         championshipData.forEach(row => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row.platz}</td>
-            <td>${row.fahrer}</td>
-            <td>${row.team}</td>
-            <td class="points">${row.punkte}<
+          
