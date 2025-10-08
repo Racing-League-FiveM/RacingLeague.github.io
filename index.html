@@ -322,8 +322,8 @@
       <a href="#" onclick="showSection('results')">Ergebnisse</a>
       <a href="#" onclick="showSection('bored')">Langeweile?</a>
       <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
-      <a href="#" onclick="showSection('contact')">Kontakt</a>
       <a href="#" onclick="showSection('legend')">Werde eine Legende!</a>
+      <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
 
     <main>
@@ -437,6 +437,12 @@
         <h2>Sponsoren</h2>
       </div>
 
+      <!-- Werde eine Legende!-Sektion -->
+      <div id="legend-section" class="section">
+        <h2>Werde eine Legende!</h2>
+        <p>Diese Funktion wird später verfügbar sein.</p>
+      </div>
+
       <!-- Kontakt-Sektion -->
       <div id="contact-section" class="section">
         <h2>Kontakt</h2>
@@ -457,12 +463,6 @@
             E-Mail: -
           </p>
         </div>
-      </div>
-
-      <!-- Werde eine Legende!-Sektion -->
-      <div id="legend-section" class="section">
-        <h2>Werde eine Legende!</h2>
-        <p>Diese Funktion wird später verfügbar sein.</p>
       </div>
     </main>
 
@@ -524,7 +524,7 @@
         } else if (sectionId === 'bored') {
           document.getElementById('game-canvas').style.display = 'block';
           document.getElementById('game-status').style.display = 'block';
-          document.getElementById('backgroundMusic').play();
+          // Musik wird bei Spielstart aktiviert
           resetSnake();
         } else {
           document.getElementById('game-canvas').style.display = 'none';
@@ -536,7 +536,9 @@
 
       function showAllSections() {
         document.querySelectorAll('.section').forEach(section => {
-          section.classList.add('active');
+          if (section.id !== 'bored-section') {
+            section.classList.add('active');
+          }
         });
         document.querySelectorAll('.team-details').forEach(detail => {
           detail.classList.add('active');
@@ -552,7 +554,7 @@
           teamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Snake nicht automatisch anzeigen
+        // Snake und Musik nicht anzeigen
         document.getElementById('game-canvas').style.display = 'none';
         document.getElementById('game-status').style.display = 'none';
         document.getElementById('backgroundMusic').pause();
@@ -581,7 +583,7 @@
         if (game === 'snake') {
           document.getElementById('game-canvas').style.display = 'block';
           document.getElementById('game-status').style.display = 'block';
-          document.getElementById('backgroundMusic').play();
+          // Musik wird bei Spielstart aktiviert
           resetSnake();
         }
       }
@@ -695,6 +697,10 @@
         clearInterval(gameIntervalSnake);
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
         generateFood();
+        // Starte die Musik beim Neustart
+        document.getElementById('backgroundMusic').play().catch(error => {
+          console.log("Autoplay verweigert: ", error);
+        });
       }
 
       function endGame() {
@@ -720,7 +726,7 @@
       });
       renderTable();
       initSnake();
-      // Kein automatisches Anzeigen von Snake hier
+      // Kein automatisches Anzeigen von Snake oder Musik hier
       updateHighScores();
     </script>
   </body>
