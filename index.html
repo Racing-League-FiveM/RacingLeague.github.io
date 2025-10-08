@@ -120,7 +120,7 @@
         background-color: #ff1a1a;
         color: #fff;
         padding: 12px 25px;
-        margin-top: 30px;
+        margin: 10px;
         border-radius: 5px;
         text-decoration: none;
         font-weight: bold;
@@ -129,6 +129,20 @@
 
       .button:hover {
         background-color: #cc1414;
+      }
+
+      .game-button {
+        background-color: #40E0D0; /* Türkis */
+        color: #000000; /* Schwarze Schrift */
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .game-button:hover {
+        background-color: #33C2B7;
       }
 
       /* Sektionen */
@@ -251,6 +265,7 @@
         background-color: #141414;
         display: block;
         margin: 20px auto;
+        display: none;
       }
 
       .high-scores {
@@ -275,6 +290,30 @@
       .high-scores li {
         padding: 5px 0;
         border-bottom: 1px solid #333;
+      }
+
+      /* Pong-Spiel-Styling */
+      .pong-canvas {
+        border: 2px solid #ff1a1a;
+        background-color: #141414;
+        display: block;
+        margin: 20px auto;
+        display: none;
+      }
+
+      .score-board {
+        font-size: 1.2em;
+        margin: 10px auto;
+        display: none;
+      }
+
+      /* Asteroids-Spiel-Styling */
+      .asteroids-canvas {
+        border: 2px solid #ff1a1a;
+        background-color: #141414;
+        display: block;
+        margin: 20px auto;
+        display: none;
       }
     </style>
   </head>
@@ -405,15 +444,16 @@
       <!-- Langeweile-Sektion -->
       <div id="bored-section" class="section">
         <h2>Langeweile?</h2>
+        <button class="game-button" onclick="showGame('snake')">Snake</button>
+        <button class="game-button" onclick="showGame('asteroids')">Asteroids</button>
         <canvas id="game-canvas" class="game-canvas" width="400" height="400"></canvas>
-        <p id="game-status">Punkte: 0 | Steuerung: Pfeiltasten | Neustart: R</p>
+        <canvas id="pong-canvas" class="pong-canvas" width="400" height="400"></canvas>
+        <canvas id="asteroids-canvas" class="asteroids-canvas" width="400" height="400"></canvas>
+        <p id="game-status">Punkte: 0 | Power-Up: 0s | Steuerung: Pfeiltasten | Neustart: R</p>
+        <div class="score-board" id="pong-score">Punkte: 0</div>
         <div id="high-scores" class="high-scores">
-          <h3>Bestenliste</h3>
+          <h3>Persönlicher Highscore</h3>
           <ul id="high-scores-list"></ul>
-        </div>
-        <div id="name-input" style="display: none;">
-          <input type="text" id="player-name" placeholder="Dein Name">
-          <button class="button" onclick="saveScore()">Speichern</button>
         </div>
       </div>
 
@@ -553,65 +593,81 @@
         ul.innerHTML = '';
       }
 
+      // Spielsteuerung
+      let currentGame = 'pong'; // Standardspiel
+      function showGame(game) {
+        currentGame = game;
+        document.getElementById('game-canvas').style.display = game === 'snake' ? 'block' : 'none';
+        document.getElementById('pong-canvas').style.display = game === 'pong' ? 'block' : 'none';
+        document.getElementById('asteroids-canvas').style.display = game === 'asteroids' ? 'block' : 'none';
+        document.getElementById('game-status').style.display = game === 'snake' || game === 'asteroids' ? 'block' : 'none';
+        document.getElementById('pong-score').style.display = game === 'pong' ? 'block' : 'none';
+        if (game === 'snake') resetSnake();
+        else if (game === 'pong') resetPong();
+        else if (game === 'asteroids') resetAsteroids();
+      }
+
       // Snake-Spiel
-      const canvas = document.getElementById('game-canvas');
-      const ctx = canvas.getContext('2d');
+      const canvasSnake = document.getElementById('game-canvas');
+      const ctxSnake = canvasSnake.getContext('2d');
       let snake = [{ x: 10, y: 10 }];
       let food = { x: 15, y: 15 };
       let powerUp = null;
       let dx = 0;
       let dy = 0;
       let score = 0;
-      let gameInterval;
+      let gameIntervalSnake;
       let powerUpTimer = 0;
-      let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+      let personalHighScore = localStorage.getItem('personalHighScore') || 0;
 
       function initSnake() {
         document.addEventListener('keydown', (e) => {
+          const prevDx = dx;
+          const prevDy = dy;
           switch (e.key) {
-            case 'ArrowUp': if (dy === 0) { dx = 0; dy = -1; } break;
-            case 'ArrowDown': if (dy === 0) { dx = 0; dy = 1; } break;
-            case 'ArrowLeft': if (dx === 0) { dx = -1; dy = 0; } break;
-            case 'ArrowRight': if (dx === 0) { dx = 1; dy = 0; } break;
+            case 'ArrowUp': if (prevDy !== 1) { dx = 0; dy = -1; } break;
+            case 'ArrowDown': if (prevDy !== -1) { dx = 0; dy = 1; } break;
+            case 'ArrowLeft': if (prevDx !== 1) { dx = -1; dy = 0; } break;
+            case 'ArrowRight': if (prevDx !== -1) { dx = 1; dy = 0; } break;
             case 'r': case 'R': resetSnake(); break;
           }
         });
-        gameInterval = setInterval(gameLoop, 100);
+        gameIntervalSnake = setInterval(gameLoopSnake, 100);
       }
 
       function moveSnake() {
         const head = { x: snake[0].x + dx, y: snake[0].y + dy };
         snake.unshift(head);
         if (head.x === food.x && head.y === food.y) {
-          score += powerUp ? 20 : 10; // Doppelte Punkte mit Power-Up
-          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
+          score += powerUp ? 20 : 10;
+          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s | Steuerung: Pfeiltasten | Neustart: R`;
           generateFood();
         } else if (powerUp && head.x === powerUp.x && head.y === powerUp.y) {
           powerUp = null;
           powerUpTimer = 6;
-          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
+          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s | Steuerung: Pfeiltasten | Neustart: R`;
         } else {
           snake.pop();
         }
       }
 
       function drawGame() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#ff1a1a';
+        ctxSnake.clearRect(0, 0, canvasSnake.width, canvasSnake.height);
+        ctxSnake.fillStyle = '#ff1a1a';
         snake.forEach(segment => {
-          ctx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+          ctxSnake.fillRect(segment.x * 20, segment.y * 20, 18, 18);
         });
-        ctx.fillStyle = '#40E0D0'; // Türkisfarbenes Food
-        ctx.fillRect(food.x * 20, food.y * 20, 18, 18);
+        ctxSnake.fillStyle = '#40E0D0';
+        ctxSnake.fillRect(food.x * 20, food.y * 20, 18, 18);
         if (powerUp) {
-          ctx.fillStyle = '#FFFFFF'; // Weißes Power-Up
-          ctx.fillRect(powerUp.x * 20, powerUp.y * 20, 18, 18);
+          ctxSnake.fillStyle = '#FFFFFF';
+          ctxSnake.fillRect(powerUp.x * 20, powerUp.y * 20, 18, 18);
         }
       }
 
       function checkCollision() {
         const head = snake[0];
-        if (head.x < 0 || head.x >= canvas.width / 20 || head.y < 0 || head.y >= canvas.height / 20) {
+        if (head.x < 0 || head.x >= canvasSnake.width / 20 || head.y < 0 || head.y >= canvasSnake.height / 20) {
           endGame();
           return true;
         }
@@ -625,19 +681,19 @@
       }
 
       function generateFood() {
-        food.x = Math.floor(Math.random() * (canvas.width / 20));
-        food.y = Math.floor(Math.random() * (canvas.height / 20));
+        food.x = Math.floor(Math.random() * (canvasSnake.width / 20));
+        food.y = Math.floor(Math.random() * (canvasSnake.height / 20));
         if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
           generateFood();
         }
-        if (Math.random() < 0.1 && !powerUp) { // 10% Chance für Power-Up
+        if (Math.random() < 0.1 && !powerUp) {
           do {
-            powerUp = { x: Math.floor(Math.random() * (canvas.width / 20)), y: Math.floor(Math.random() * (canvas.height / 20)) };
+            powerUp = { x: Math.floor(Math.random() * (canvasSnake.width / 20)), y: Math.floor(Math.random() * (canvasSnake.height / 20)) };
           } while (snake.some(segment => segment.x === powerUp.x && segment.y === powerUp.y) || (powerUp.x === food.x && powerUp.y === food.y));
         }
       }
 
-      function gameLoop() {
+      function gameLoopSnake() {
         if (!checkCollision()) {
           moveSnake();
           if (powerUpTimer > 0) {
@@ -657,40 +713,203 @@
         powerUp = null;
         powerUpTimer = 0;
         document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
-        clearInterval(gameInterval);
-        gameInterval = setInterval(gameLoop, 100);
+        clearInterval(gameIntervalSnake);
+        gameIntervalSnake = setInterval(gameLoopSnake, 100);
         generateFood();
       }
 
-      function endGame() {
-        clearInterval(gameInterval);
-        document.getElementById('game-status').textContent = `Game Over! Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s`;
-        document.getElementById('name-input').style.display = 'block';
+      // Pong-Spiel
+      const canvasPong = document.getElementById('pong-canvas');
+      const ctxPong = canvasPong.getContext('2d');
+      let paddleY = canvasPong.height / 2 - 40;
+      let ball = { x: canvasPong.width / 2, y: canvasPong.height / 2, dx: 4, dy: 4 };
+      let scorePong = 0;
+      let gameIntervalPong;
+
+      function initPong() {
+        document.addEventListener('keydown', (e) => {
+          switch (e.key) {
+            case 'ArrowUp': paddleY = Math.max(0, paddleY - 10); break;
+            case 'ArrowDown': paddleY = Math.min(canvasPong.height - 80, paddleY + 10); break;
+          }
+        });
+        gameIntervalPong = setInterval(gameLoopPong, 16);
       }
 
-      function saveScore() {
-        const name = document.getElementById('player-name').value || 'Anonym';
-        highScores.push({ name, score });
-        highScores.sort((a, b) => b.score - a.score);
-        highScores = highScores.slice(0, 5); // Top 5
-        localStorage.setItem('highScores', JSON.stringify(highScores));
+      function movePaddle() {
+        ctxPong.fillStyle = '#ff1a1a';
+        ctxPong.fillRect(10, paddleY, 10, 80);
+      }
+
+      function moveBall() {
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        if (ball.y < 0 || ball.y > canvasPong.height) ball.dy = -ball.dy;
+        if (ball.x < 20 && ball.y > paddleY && ball.y < paddleY + 80) {
+          ball.dx = -ball.dx;
+          scorePong++;
+          document.getElementById('pong-score').textContent = `Punkte: ${scorePong}`;
+        }
+        if (ball.x < 0) {
+          ball.x = canvasPong.width / 2;
+          ball.y = canvasPong.height / 2;
+          ball.dx = 4;
+          ball.dy = 4;
+          scorePong = 0;
+          document.getElementById('pong-score').textContent = `Punkte: ${scorePong}`;
+        }
+      }
+
+      function gameLoopPong() {
+        ctxPong.clearRect(0, 0, canvasPong.width, canvasPong.height);
+        movePaddle();
+        moveBall();
+        ctxPong.fillStyle = '#40E0D0';
+        ctxPong.beginPath();
+        ctxPong.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
+        ctxPong.fill();
+      }
+
+      function resetPong() {
+        paddleY = canvasPong.height / 2 - 40;
+        ball = { x: canvasPong.width / 2, y: canvasPong.height / 2, dx: 4, dy: 4 };
+        scorePong = 0;
+        document.getElementById('pong-score').textContent = `Punkte: ${scorePong}`;
+        clearInterval(gameIntervalPong);
+        gameIntervalPong = setInterval(gameLoopPong, 16);
+      }
+
+      // Asteroids-Spiel
+      const canvasAsteroids = document.getElementById('asteroids-canvas');
+      const ctxAsteroids = canvasAsteroids.getContext('2d');
+      let ship = { x: canvasAsteroids.width / 2, y: canvasAsteroids.height - 30, angle: 0, dx: 0, dy: 0, speed: 0 };
+      let bullets = [];
+      let asteroids = [];
+      let scoreAsteroids = 0;
+      let gameIntervalAsteroids;
+
+      function initAsteroids() {
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') ship.angle -= 5;
+          if (e.key === 'ArrowRight') ship.angle += 5;
+          if (e.key === 'ArrowUp') {
+            ship.speed = Math.min(5, ship.speed + 0.1);
+            ship.dx = Math.cos(ship.angle * Math.PI / 180) * ship.speed;
+            ship.dy = Math.sin(ship.angle * Math.PI / 180) * ship.speed;
+          }
+          if (e.key === 'ArrowDown') {
+            ship.speed = Math.max(0, ship.speed - 0.1);
+            ship.dx = Math.cos(ship.angle * Math.PI / 180) * ship.speed;
+            ship.dy = Math.sin(ship.angle * Math.PI / 180) * ship.speed;
+          }
+          if (e.key === ' ') bullets.push({ x: ship.x, y: ship.y, dx: Math.cos(ship.angle * Math.PI / 180) * 5, dy: Math.sin(ship.angle * Math.PI / 180) * 5 });
+          if (e.key === 'r' || e.key === 'R') resetAsteroids();
+        });
+        for (let i = 0; i < 5; i++) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: Math.random() * canvasAsteroids.height / 2, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
+        gameIntervalAsteroids = setInterval(gameLoopAsteroids, 16);
+      }
+
+      function moveShip() {
+        ship.x += ship.dx;
+        ship.y += ship.dy;
+        if (ship.x < 0) ship.x = canvasAsteroids.width;
+        if (ship.x > canvasAsteroids.width) ship.x = 0;
+        if (ship.y < 0) ship.y = canvasAsteroids.height;
+        if (ship.y > canvasAsteroids.height) ship.y = 0;
+        ctxAsteroids.save();
+        ctxAsteroids.translate(ship.x, ship.y);
+        ctxAsteroids.rotate(ship.angle * Math.PI / 180);
+        ctxAsteroids.fillStyle = '#ff1a1a';
+        ctxAsteroids.beginPath();
+        ctxAsteroids.moveTo(0, -15);
+        ctxAsteroids.lineTo(10, 10);
+        ctxAsteroids.lineTo(-10, 10);
+        ctxAsteroids.closePath();
+        ctxAsteroids.fill();
+        ctxAsteroids.restore();
+      }
+
+      function moveAsteroids() {
+        asteroids.forEach(asteroid => {
+          asteroid.x += asteroid.dx;
+          asteroid.y += asteroid.dy;
+          if (asteroid.x < 0 || asteroid.x > canvasAsteroids.width) asteroid.dx = -asteroid.dx;
+          if (asteroid.y < 0 || asteroid.y > canvasAsteroids.height) asteroid.dy = -asteroid.dy;
+          ctxAsteroids.fillStyle = '#40E0D0';
+          ctxAsteroids.beginPath();
+          ctxAsteroids.arc(asteroid.x, asteroid.y, asteroid.size, 0, Math.PI * 2);
+          ctxAsteroids.fill();
+        });
+      }
+
+      function moveBullets() {
+        bullets.forEach((bullet, b) => {
+          bullet.x += bullet.dx;
+          bullet.y += bullet.dy;
+          ctxAsteroids.fillStyle = '#FFFFFF';
+          ctxAsteroids.beginPath();
+          ctxAsteroids.arc(bullet.x, bullet.y, 5, 0, Math.PI * 2);
+          ctxAsteroids.fill();
+          asteroids.forEach((asteroid, a) => {
+            if (Math.hypot(bullet.x - asteroid.x, bullet.y - asteroid.y) < asteroid.size) {
+              asteroids.splice(a, 1);
+              bullets.splice(b, 1);
+              scoreAsteroids += 10;
+              if (Math.random() < 0.5) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: -20, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
+            }
+          });
+        });
+      }
+
+      function checkCollisionAsteroids() {
+        asteroids.forEach(asteroid => {
+          if (Math.hypot(ship.x - asteroid.x, ship.y - asteroid.y) < asteroid.size + 15) {
+            endGame();
+          }
+        });
+      }
+
+      function gameLoopAsteroids() {
+        ctxAsteroids.clearRect(0, 0, canvasAsteroids.width, canvasAsteroids.height);
+        moveShip();
+        moveAsteroids();
+        moveBullets();
+        checkCollisionAsteroids();
+        document.getElementById('game-status').textContent = `Punkte: ${scoreAsteroids} | Steuerung: Links/Rechts/Drehung, Up/Down/Bewegung, Leertaste/Schießen | Neustart: R`;
+      }
+
+      function resetAsteroids() {
+        ship = { x: canvasAsteroids.width / 2, y: canvasAsteroids.height - 30, angle: 0, dx: 0, dy: 0, speed: 0 };
+        bullets = [];
+        asteroids = [];
+        scoreAsteroids = 0;
+        for (let i = 0; i < 5; i++) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: Math.random() * canvasAsteroids.height / 2, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
+        clearInterval(gameIntervalAsteroids);
+        gameIntervalAsteroids = setInterval(gameLoopAsteroids, 16);
+      }
+
+      function endGame() {
+        clearInterval(gameIntervalSnake);
+        clearInterval(gameIntervalPong);
+        clearInterval(gameIntervalAsteroids);
+        if (currentGame === 'snake' && score > personalHighScore) personalHighScore = score;
+        else if (currentGame === 'pong' && scorePong > personalHighScore) personalHighScore = scorePong;
+        else if (currentGame === 'asteroids' && scoreAsteroids > personalHighScore) personalHighScore = scoreAsteroids;
+        localStorage.setItem('personalHighScore', personalHighScore);
         updateHighScores();
-        document.getElementById('name-input').style.display = 'none';
-        document.getElementById('player-name').value = '';
-        resetSnake();
+        document.getElementById('game-status').textContent = `${currentGame === 'snake' ? 'Game Over!' : ''} Punkte: ${currentGame === 'snake' ? score : currentGame === 'pong' ? scorePong : scoreAsteroids} | ${currentGame === 'snake' ? 'Power-Up: ' + powerUpTimer.toFixed(1) + 's | ' : ''}Steuerung: ${currentGame === 'asteroids' ? 'Links/Rechts/Drehung, Up/Down/Bewegung, Leertaste/Schießen' : 'Pfeiltasten'} | Neustart: R`;
       }
 
       function updateHighScores() {
         const ul = document.getElementById('high-scores-list');
         ul.innerHTML = '';
-        highScores.forEach((entry, index) => {
-          const li = document.createElement('li');
-          li.textContent = `${index + 1}. ${entry.name}: ${entry.score} Punkte`;
-          ul.appendChild(li);
-        });
+        const li = document.createElement('li');
+        li.textContent = `Dein Highscore: ${personalHighScore} Punkte`;
+        ul.appendChild(li);
       }
 
-      // Initiale Tabelle, Kalender und Spiel rendern
+      // Initiale Tabelle, Kalender und Spiele rendern
       championshipData.sort((a, b) => b.punkte - a.punkte);
       championshipData.forEach((row, index) => {
         row.platz = index + 1;
@@ -698,6 +917,9 @@
       renderTable();
       renderCalendar();
       initSnake();
+      initPong();
+      initAsteroids();
+      showGame('pong'); // Standardmäßig Pong anzeigen
       updateHighScores();
     </script>
   </body>
