@@ -219,6 +219,31 @@
       .results-table tr:hover {
         background-color: #2a2a2a;
       }
+
+      /* Kalender-Styling */
+      .calendar {
+        max-width: 700px;
+        margin: 20px auto;
+        background-color: #141414;
+        border-radius: 5px;
+        padding: 15px;
+      }
+
+      .calendar h3 {
+        color: #ff1a1a;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      .calendar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .calendar li {
+        padding: 8px 0;
+        border-bottom: 1px solid #333;
+      }
     </style>
   </head>
   <body>
@@ -227,18 +252,19 @@
     </header>
 
     <nav>
-      <a href="#" onclick="playClickSound(); showSection('home')">Start</a>
+      <a href="#" onclick="showSection('home')">Start</a>
       <div class="dropdown">
-        <a href="#" class="dropbtn" onclick="playClickSound(); showSection('teams')">Teams</a>
+        <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
         <div class="dropdown-content">
-          <a href="#" onclick="playClickSound(); showSection('teams', 'team1')">Team 1</a>
-          <a href="#" onclick="playClickSound(); showSection('teams', 'team2')">Team 2</a>
-          <a href="#" onclick="playClickSound(); showSection('teams', 'team3')">Team 3</a>
-          <a href="#" onclick="playClickSound(); showSection('teams', 'team4')">Team 4</a>
+          <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
+          <a href="#" onclick="showSection('teams', 'team2')">Team 2</a>
+          <a href="#" onclick="showSection('teams', 'team3')">Team 3</a>
+          <a href="#" onclick="showSection('teams', 'team4')">Team 4</a>
         </div>
       </div>
-      <a href="#" onclick="playClickSound(); showSection('results')">Ergebnisse</a>
-      <a href="#" onclick="playClickSound(); showSection('contact')">Kontakt</a>
+      <a href="#" onclick="showSection('results')">Ergebnisse</a>
+      <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
+      <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
 
     <main>
@@ -250,7 +276,7 @@
           Hier dreht sich alles um Geschwindigkeit, Präzision und Leidenschaft
           fürs Racing. Erfahre mehr über unsere Teams, Rennen und Ergebnisse.
         </p>
-        <a href="#" class="button" onclick="playClickSound(); showAllSections()">Mehr erfahren</a>
+        <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
       </div>
 
       <!-- Teams-Sektion -->
@@ -337,10 +363,19 @@
             <tr><td>20</td><td>Fahrer 20</td><td>Team 4</td><td>5</td></tr>
           </tbody>
         </table>
+        <div id="calendar" class="calendar">
+          <h3>Renntermine 2025</h3>
+          <ul id="raceDatesList"></ul>
+        </div>
+      </div>
+
+      <!-- Sponsoren-Sektion -->
+      <div id="sponsors-section" class="section">
+        <h2>Sponsoren</h2>
       </div>
 
       <!-- Kontakt-Sektion -->
-      <div id="contact-section" class="section">
+      <div id="contact-section" class="contact-section section">
         <h2>Kontakt</h2>
         <h3>Unser Team:</h3>
         <p>
@@ -363,11 +398,6 @@
     <footer>
       © 2025 Racing League. Alle Rechte vorbehalten.
     </footer>
-
-    <audio id="clickSound">
-      <source src="./click.mp3" type="audio/mpeg">
-      Dein Browser unterstützt das Audio-Element nicht.
-    </audio>
 
     <script>
       // Initiale Daten im Speicher (nicht persistent)
@@ -469,20 +499,19 @@
         });
       }
 
-      // Initiale Tabelle rendern (sortiert nach Punkten)
+      // Kalender rendern (leer)
+      function renderCalendar() {
+        const ul = document.getElementById('raceDatesList');
+        ul.innerHTML = '';
+      }
+
+      // Initiale Tabelle und Kalender rendern
       championshipData.sort((a, b) => b.punkte - a.punkte);
       championshipData.forEach((row, index) => {
         row.platz = index + 1;
       });
       renderTable();
-
-      // Soundeffekt-Funktion
-      function playClickSound() {
-        const sound = document.getElementById('clickSound');
-        sound.play().catch(error => {
-          console.log("Sound konnte nicht abgespielt werden: ", error);
-        });
-      }
+      renderCalendar();
     </script>
   </body>
 </html>
