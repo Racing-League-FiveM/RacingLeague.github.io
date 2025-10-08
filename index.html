@@ -132,8 +132,8 @@
       }
 
       .game-button {
-        background-color: #40E0D0; /* Türkis */
-        color: #000000; /* Schwarze Schrift */
+        background-color: #40E0D0;
+        color: #000000;
         padding: 10px 20px;
         margin: 5px;
         border: none;
@@ -179,7 +179,7 @@
         color: #d9d9d9;
         font-size: 1em;
         margin: 5px 0;
-        flex-basis: 45%; /* Anpassbar für nebeneinander */
+        flex-basis: 45%;
       }
 
       /* Team-Details */
@@ -203,4 +203,301 @@
       }
 
       .team-details p {
-        color: #d9d
+        color: #d9d9d9;
+        font-size: 1em;
+      }
+
+      .results-table {
+        max-width: 700px;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #141414;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .results-table th,
+      .results-table td {
+        padding: 12px;
+        text-align: left;
+        color: #d9d9d9;
+        border-bottom: 1px solid #333;
+      }
+
+      .results-table th {
+        background-color: #ff1a1a;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .results-table tr:nth-child(even) {
+        background-color: #1a1a1a;
+      }
+
+      .results-table tr:hover {
+        background-color: #2a2a2a;
+      }
+
+      /* Kalender-Styling */
+      .calendar {
+        max-width: 700px;
+        margin: 20px auto;
+        background-color: #141414;
+        border-radius: 5px;
+        padding: 15px;
+      }
+
+      .calendar h3 {
+        color: #ff1a1a;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      /* Snake-Spiel-Styling */
+      .game-canvas {
+        border: 2px solid #ff1a1a;
+        background-color: #141414;
+        display: block;
+        margin: 20px auto;
+        display: none;
+      }
+
+      .high-scores {
+        max-width: 300px;
+        margin: 20px auto;
+        background-color: #141414;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .high-scores h3 {
+        color: #ff1a1a;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+      }
+
+      .high-scores ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .high-scores li {
+        padding: 5px 0;
+        border-bottom: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🏎️ Racing League 🚗</h1>
+    </header>
+
+    <nav>
+      <a href="#" onclick="showSection('home')">Start</a>
+      <div class="dropdown">
+        <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
+        <div class="dropdown-content">
+          <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
+          <a href="#" onclick="showSection('teams', 'team2')">Team 2</a>
+          <a href="#" onclick="showSection('teams', 'team3')">Team 3</a>
+          <a href="#" onclick="showSection('teams', 'team4')">Team 4</a>
+        </div>
+      </div>
+      <a href="#" onclick="showSection('fahrer')">Fahrer</a>
+      <a href="#" onclick="showSection('results')">Ergebnisse</a>
+      <a href="#" onclick="showSection('legend')">Werde eine Legende!</a>
+      <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
+      <a href="#" onclick="showSection('bored')">Langeweile?</a>
+      <a href="#" onclick="showSection('contact')">Kontakt</a>
+    </nav>
+
+    <main>
+      <!-- Willkommen-Sektion -->
+      <div id="home-section" class="section active">
+        <h2>Willkommen bei der Racing League</h2>
+        <img src="./RacingLeagueLogo.png" alt="Racing League Logo" class="logo">
+        <p>
+          Bereit für den Nervenkitzel der Geschwindigkeit? Die Racing League öffnet ihre Tore für alle, die das Adrenalin der Rennstrecke spüren wollen! Tauche ein in die Welt der hochkarätigen Teams, atemberaubender Rennen und packender Ergebnisse. Hier beginnt deine Reise – schnall dich an und entdecke, was dich erwartet!
+        </p>
+        <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
+      </div>
+
+      <!-- Teams-Sektion -->
+      <div id="teams-section" class="teams-section section">
+        <h2>Unsere Teams</h2>
+        <!-- Team 1 -->
+        <div id="team1-details" class="team-details">
+          <h3 style="background-color: #7c0000;">Team 1</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 2 -->
+        <div id="team2-details" class="team-details">
+          <h3 style="background-color: #6102ae;">Team 2</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 3 -->
+        <div id="team3-details" class="team-details">
+          <h3 style="background-color: #ff8f00;">Team 3</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+        <!-- Team 4 -->
+        <div id="team4-details" class="team-details">
+          <h3 style="background-color: #646464;">Team 4</h3>
+          <p>
+            <strong>Gründung:</strong> <br>
+            <strong>Fahrer:</strong> <br>
+            <strong>Erfolge:</strong> <br>
+            <strong>Beschreibung:</strong> <br>
+            <strong>Bild des Fahrzeugs:</strong> 
+          </p>
+        </div>
+      </div>
+
+      <!-- Fahrer-Sektion -->
+      <div id="fahrer-section" class="section">
+        <h2>Fahrer</h2>
+        <p>Alle Fahrer der Racing League werden hier einmal vorgestellt wenn es soweit ist.</p>
+      </div>
+
+      <!-- Ergebnisse-Sektion -->
+      <div id="results-section" class="section">
+        <h2>Fahrer-Championship</h2>
+        <table class="results-table" id="championship-table">
+          <thead>
+            <tr>
+              <th>Platz</th>
+              <th>Fahrer</th>
+              <th>Team</th>
+              <th>Punkte</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td>1</td><td>Fahrer 1</td><td>Team 1</td><td>0</td></tr>
+            <tr><td>2</td><td>Fahrer 2</td><td>Team 1</td><td>0</td></tr>
+            <tr><td>3</td><td>Fahrer 3</td><td>Team 2</td><td>0</td></tr>
+            <tr><td>4</td><td>Fahrer 4</td><td>Team 2</td><td>0</td></tr>
+            <tr><td>5</td><td>Fahrer 5</td><td>Team 3</td><td>0</td></tr>
+            <tr><td>6</td><td>Fahrer 6</td><td>Team 3</td><td>0</td></tr>
+            <tr><td>7</td><td>Fahrer 7</td><td>Team 4</td><td>0</td></tr>
+            <tr><td>8</td><td>Fahrer 8</td><td>Team 4</td><td>0</td></tr>
+          </tbody>
+        </table>
+        <div id="calendar" class="calendar">
+          <h3>Renntermine 2025</h3>
+          <iframe src="https://kalender.digital/08c77cca544fa891840a" width="100%" height="400" frameborder="0"></iframe>
+        </div>
+      </div>
+
+      <!-- Langeweile-Sektion -->
+      <div id="bored-section" class="section">
+        <h2>Langeweile?</h2>
+        <canvas id="game-canvas" class="game-canvas" width="400" height="400"></canvas>
+        <p id="game-status">Punkte: 0 | Power-Up: 0s | Steuerung: Pfeiltasten | Neustart: R</p>
+        <div id="high-scores" class="high-scores">
+          <h3>Persönlicher Highscore</h3>
+          <ul id="high-scores-list"></ul>
+        </div>
+      </div>
+
+      <!-- Sponsoren-Sektion -->
+      <div id="sponsors-section" class="section">
+        <h2>Sponsoren</h2>
+      </div>
+
+      <!-- Werde eine Legende!-Sektion -->
+      <div id="legend-section" class="section">
+        <h2>Werde eine Legende!</h2>
+        <p>
+          Der Weg zur Legende wird lang, aber jeder hat doch auch einmal klein angefangen, oder? <br>
+          Solltest du dich entschieden haben, deine Karriere bei der Racing League zu beginnen, wirst du zunächst auf die Probe gestellt. Wir testen dich gleich zu Beginn in einem entscheidenden Punkt: deiner Fahrfähigkeit. <br>
+          Um überhaupt eingestellt zu werden, wird deine Pace auf der Strecke ermittelt – wir prüfen, wie schnell du deine Runden fahren kannst und wie konstant dein Durchschnitt ist. Solltest du dabei unsere Kriterien noch nicht erfüllen, brauchst du keine Angst zu haben – nicht jeder schafft es sofort. <br>
+          Wenn du dich während der Probezeit respektvoll verhältst, darfst du die <strong>Rookie-Prüfung</strong> ablegen – die erste Hürde, bevor es richtig auf die Strecke geht. In dieser Prüfung wirst du in folgenden Bereichen getestet:
+        </p>
+        <ul>
+          <li>Flaggenkunde</li>
+          <li>Situationsfragen</li>
+          <li>Allgemeinwissen</li>
+        </ul>
+        <p>
+          Bestehst du die Rookie-Prüfung, darfst du endlich in einem Rennen ans Steuer und zeigen, was in dir steckt!
+        </p>
+      </div>
+
+      <!-- Kontakt-Sektion -->
+      <div id="contact-section" class="section">
+        <h2>Kontakt</h2>
+        <h3>Unser Team:</h3>
+        <div class="contact-section">
+          <p>
+            <strong>COO - Chief Operating Officer:</strong><br>
+            Marijo Mandzukic<br>
+            Geb.: 13.10.2000<br>
+            Tel.: -<br>
+            E-Mail: -
+          </p>
+          <p>
+            <strong>Race Director:</strong><br>
+            Dominic Martinéz<br>
+            Geb.: 15.06.2004<br>
+            Tel.: -<br>
+            E-Mail: -
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      © 2025 Racing League. Alle Rechte vorbehalten.
+    </footer>
+
+    <script>
+      // Debugging-Log am Anfang
+      console.log("Skript wird geladen...");
+
+      // Initiale Daten im Speicher (nicht persistent)
+      let championshipData = [
+        {platz: 1, fahrer: 'Fahrer 1', team: 'Team 1', punkte: 0},
+        {platz: 2, fahrer: 'Fahrer 2', team: 'Team 1', punkte: 0},
+        {platz: 3, fahrer: 'Fahrer 3', team: 'Team 2', punkte: 0},
+        {platz: 4, fahrer: 'Fahrer 4', team: 'Team 2', punkte: 0},
+        {platz: 5, fahrer: 'Fahrer 5', team: 'Team 3', punkte: 0},
+        {platz: 6, fahrer: 'Fahrer 6', team: 'Team 3', punkte: 0},
+        {platz: 7, fahrer: 'Fahrer 7', team: 'Team 4', punkte: 0},
+        {platz: 8, fahrer: 'Fahrer 8', team: 'Team 4', punkte: 0}
+      ];
+
+      function showSection(sectionId, teamId = '') {
+        console.log(`Versuche, Sektion ${sectionId} zu zeigen, Team: ${teamId}`);
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+        const section = document.getElementById(`${sectionId}-section`);
+        if (section) {
+          section.classList.add('active');
+        } else {
+          console.error(`Sektion ${sectionId}-section nicht gefunden!`);
+        }
+
+        // Header-Farbe und Schriftfarbe zurücksetzen
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        if (header && headerH1) {
+          header.style.backgroundColor = '#ff1a1a';
