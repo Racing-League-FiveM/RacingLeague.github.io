@@ -469,6 +469,9 @@
     </footer>
 
     <script>
+      // Debugging-Log am Anfang
+      console.log("Skript wird geladen...");
+
       // Initiale Daten im Speicher (nicht persistent)
       let championshipData = [
         {platz: 1, fahrer: 'Fahrer 1', team: 'Team 1', punkte: 0},
@@ -481,4 +484,20 @@
         {platz: 8, fahrer: 'Fahrer 8', team: 'Team 4', punkte: 0}
       ];
 
-      function showSection(sectionId, team
+      function showSection(sectionId, teamId = '') {
+        console.log(`Versuche, Sektion ${sectionId} zu zeigen, Team: ${teamId}`);
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+        const section = document.getElementById(`${sectionId}-section`);
+        if (section) {
+          section.classList.add('active');
+        } else {
+          console.error(`Sektion ${sectionId}-section nicht gefunden!`);
+        }
+
+        // Header-Farbe und Schriftfarbe zurücksetzen
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        if (header && headerH1) {
+          header.style.backgroundColor = '#ff1a1a';
