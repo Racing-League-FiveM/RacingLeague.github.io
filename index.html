@@ -132,8 +132,8 @@
       }
 
       .game-button {
-        background-color: #40E0D0;
-        color: #000000;
+        background-color: #40E0D0; /* Türkis */
+        color: #000000; /* Schwarze Schrift */
         padding: 10px 20px;
         margin: 5px;
         border: none;
@@ -179,7 +179,7 @@
         color: #d9d9d9;
         font-size: 1em;
         margin: 5px 0;
-        flex-basis: 45%;
+        flex-basis: 45%; /* Anpassbar für nebeneinander */
       }
 
       /* Team-Details */
@@ -475,4 +475,73 @@
         {platz: 2, fahrer: 'Fahrer 2', team: 'Team 1', punkte: 0},
         {platz: 3, fahrer: 'Fahrer 3', team: 'Team 2', punkte: 0},
         {platz: 4, fahrer: 'Fahrer 4', team: 'Team 2', punkte: 0},
-        {platz: 5, fahrer: 'Fahrer 5', team: 'Team
+        {platz: 5, fahrer: 'Fahrer 5', team: 'Team 3', punkte: 0},
+        {platz: 6, fahrer: 'Fahrer 6', team: 'Team 3', punkte: 0},
+        {platz: 7, fahrer: 'Fahrer 7', team: 'Team 4', punkte: 0},
+        {platz: 8, fahrer: 'Fahrer 8', team: 'Team 4', punkte: 0}
+      ];
+
+      function showSection(sectionId, teamId = '') {
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(`${sectionId}-section`).classList.add('active');
+
+        // Header-Farbe und Schriftfarbe zurücksetzen
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        header.style.backgroundColor = '#ff1a1a';
+        headerH1.style.color = '#fff';
+
+        if (sectionId === 'teams') {
+          document.querySelectorAll('.team-details').forEach(detail => {
+            detail.classList.remove('active');
+          });
+          if (teamId) {
+            document.getElementById(`${teamId}-details`).classList.add('active');
+            switch (teamId) {
+              case 'team1':
+                header.style.backgroundColor = '#7c0000';
+                break;
+              case 'team2':
+                header.style.backgroundColor = '#6102ae';
+                break;
+              case 'team3':
+                header.style.backgroundColor = '#ff8f00';
+                break;
+              case 'team4':
+                header.style.backgroundColor = '#646464';
+                headerH1.style.color = '#fff';
+                break;
+            }
+          } else {
+            document.querySelectorAll('.team-details').forEach(detail => {
+              detail.classList.add('active');
+            });
+          }
+        } else if (sectionId === 'bored') {
+          document.getElementById('game-canvas').style.display = 'block';
+          document.getElementById('game-status').style.display = 'block';
+          resetSnake();
+        } else {
+          document.getElementById('game-canvas').style.display = 'none';
+          document.getElementById('game-status').style.display = 'none';
+        }
+      }
+
+      function showAllSections() {
+        document.querySelectorAll('.section').forEach(section => {
+          if (section.id !== 'bored-section') {
+            section.classList.add('active');
+          }
+        });
+        document.querySelectorAll('.team-details').forEach(detail => {
+          detail.classList.add('active');
+        });
+
+        const header = document.querySelector('header');
+        const headerH1 = document.querySelector('header h1');
+        header.style.backgroundColor = '#ff1a1a';
+        headerH1.style.color = '#fff';
+
+        if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
