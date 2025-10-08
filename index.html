@@ -253,16 +253,6 @@
         margin-bottom: 10px;
       }
 
-      .calendar ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      .calendar li {
-        padding: 8px 0;
-        border-bottom: 1px solid #333;
-      }
-
       /* Snake-Spiel-Styling */
       .game-canvas {
         border: 2px solid #ff1a1a;
@@ -405,18 +395,7 @@
         </table>
         <div id="calendar" class="calendar">
           <h3>Renntermine 2025</h3>
-          <ul id="raceDatesList">
-            <!-- Hier kannst du einen <iframe src="DEINE_KALENDER_URL"></iframe> einfügen oder mit JavaScript eine API aufrufen, z. B.:
-            <script>
-              fetch('DEINE_API_URL').then(response => response.json()).then(data => {
-                data.forEach(event => {
-                  const li = document.createElement('li');
-                  li.textContent = event.title + ' - ' + event.date;
-                  document.getElementById('raceDatesList').appendChild(li);
-                });
-              });
-            </script> -->
-          </ul>
+          <iframe src="https://kalender.digital/08c77cca544fa891840a" width="100%" height="400" frameborder="0"></iframe>
         </div>
       </div>
 
@@ -549,12 +528,6 @@
           `;
           tbody.appendChild(tr);
         });
-      }
-
-      // Kalender rendern (leer)
-      function renderCalendar() {
-        const ul = document.getElementById('raceDatesList');
-        ul.innerHTML = '';
       }
 
       // Spielsteuerung
@@ -693,13 +666,12 @@
         ul.appendChild(li);
       }
 
-      // Initiale Tabelle, Kalender und Spiele rendern
+      // Initiale Tabelle und Spiele rendern
       championshipData.sort((a, b) => b.punkte - a.punkte);
       championshipData.forEach((row, index) => {
         row.platz = index + 1;
       });
       renderTable();
-      renderCalendar();
       initSnake();
       showGame('snake'); // Standardmäßig Snake anzeigen
       updateHighScores();
