@@ -306,15 +306,6 @@
         margin: 10px auto;
         display: none;
       }
-
-      /* Asteroids-Spiel-Styling */
-      .asteroids-canvas {
-        border: 2px solid #ff1a1a;
-        background-color: #141414;
-        display: block;
-        margin: 20px auto;
-        display: none;
-      }
     </style>
   </head>
   <body>
@@ -445,10 +436,8 @@
       <div id="bored-section" class="section">
         <h2>Langeweile?</h2>
         <button class="game-button" onclick="showGame('snake')">Snake</button>
-        <button class="game-button" onclick="showGame('asteroids')">Asteroids</button>
         <canvas id="game-canvas" class="game-canvas" width="400" height="400"></canvas>
         <canvas id="pong-canvas" class="pong-canvas" width="400" height="400"></canvas>
-        <canvas id="asteroids-canvas" class="asteroids-canvas" width="400" height="400"></canvas>
         <p id="game-status">Punkte: 0 | Power-Up: 0s | Steuerung: Pfeiltasten | Neustart: R</p>
         <div class="score-board" id="pong-score">Punkte: 0</div>
         <div id="high-scores" class="high-scores">
@@ -599,12 +588,10 @@
         currentGame = game;
         document.getElementById('game-canvas').style.display = game === 'snake' ? 'block' : 'none';
         document.getElementById('pong-canvas').style.display = game === 'pong' ? 'block' : 'none';
-        document.getElementById('asteroids-canvas').style.display = game === 'asteroids' ? 'block' : 'none';
-        document.getElementById('game-status').style.display = game === 'snake' || game === 'asteroids' ? 'block' : 'none';
+        document.getElementById('game-status').style.display = game === 'snake' ? 'block' : 'none';
         document.getElementById('pong-score').style.display = game === 'pong' ? 'block' : 'none';
         if (game === 'snake') resetSnake();
         else if (game === 'pong') resetPong();
-        else if (game === 'asteroids') resetAsteroids();
       }
 
       // Snake-Spiel
@@ -629,7 +616,7 @@
             case 'ArrowDown': if (prevDy !== -1) { dx = 0; dy = 1; } break;
             case 'ArrowLeft': if (prevDx !== 1) { dx = -1; dy = 0; } break;
             case 'ArrowRight': if (prevDx !== -1) { dx = 1; dy = 0; } break;
-            case 'r': case 'R': resetSnake(); break;
+            case 'r': case 'R': if (currentGame === 'snake') resetSnake(); break;
           }
         });
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
@@ -731,6 +718,7 @@
           switch (e.key) {
             case 'ArrowUp': paddleY = Math.max(0, paddleY - 10); break;
             case 'ArrowDown': paddleY = Math.min(canvasPong.height - 80, paddleY + 10); break;
+            case 'r': case 'R': if (currentGame === 'pong') resetPong(); break;
           }
         });
         gameIntervalPong = setInterval(gameLoopPong, 16);
@@ -780,125 +768,14 @@
         gameIntervalPong = setInterval(gameLoopPong, 16);
       }
 
-      // Asteroids-Spiel
-      const canvasAsteroids = document.getElementById('asteroids-canvas');
-      const ctxAsteroids = canvasAsteroids.getContext('2d');
-      let ship = { x: canvasAsteroids.width / 2, y: canvasAsteroids.height - 30, angle: 0, dx: 0, dy: 0, speed: 0 };
-      let bullets = [];
-      let asteroids = [];
-      let scoreAsteroids = 0;
-      let gameIntervalAsteroids;
-
-      function initAsteroids() {
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowLeft') ship.angle -= 5;
-          if (e.key === 'ArrowRight') ship.angle += 5;
-          if (e.key === 'ArrowUp') {
-            ship.speed = Math.min(5, ship.speed + 0.1);
-            ship.dx = Math.cos(ship.angle * Math.PI / 180) * ship.speed;
-            ship.dy = Math.sin(ship.angle * Math.PI / 180) * ship.speed;
-          }
-          if (e.key === 'ArrowDown') {
-            ship.speed = Math.max(0, ship.speed - 0.1);
-            ship.dx = Math.cos(ship.angle * Math.PI / 180) * ship.speed;
-            ship.dy = Math.sin(ship.angle * Math.PI / 180) * ship.speed;
-          }
-          if (e.key === ' ') bullets.push({ x: ship.x, y: ship.y, dx: Math.cos(ship.angle * Math.PI / 180) * 5, dy: Math.sin(ship.angle * Math.PI / 180) * 5 });
-          if (e.key === 'r' || e.key === 'R') resetAsteroids();
-        });
-        for (let i = 0; i < 5; i++) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: Math.random() * canvasAsteroids.height / 2, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
-        gameIntervalAsteroids = setInterval(gameLoopAsteroids, 16);
-      }
-
-      function moveShip() {
-        ship.x += ship.dx;
-        ship.y += ship.dy;
-        if (ship.x < 0) ship.x = canvasAsteroids.width;
-        if (ship.x > canvasAsteroids.width) ship.x = 0;
-        if (ship.y < 0) ship.y = canvasAsteroids.height;
-        if (ship.y > canvasAsteroids.height) ship.y = 0;
-        ctxAsteroids.save();
-        ctxAsteroids.translate(ship.x, ship.y);
-        ctxAsteroids.rotate(ship.angle * Math.PI / 180);
-        ctxAsteroids.fillStyle = '#ff1a1a';
-        ctxAsteroids.beginPath();
-        ctxAsteroids.moveTo(0, -15);
-        ctxAsteroids.lineTo(10, 10);
-        ctxAsteroids.lineTo(-10, 10);
-        ctxAsteroids.closePath();
-        ctxAsteroids.fill();
-        ctxAsteroids.restore();
-      }
-
-      function moveAsteroids() {
-        asteroids.forEach(asteroid => {
-          asteroid.x += asteroid.dx;
-          asteroid.y += asteroid.dy;
-          if (asteroid.x < 0 || asteroid.x > canvasAsteroids.width) asteroid.dx = -asteroid.dx;
-          if (asteroid.y < 0 || asteroid.y > canvasAsteroids.height) asteroid.dy = -asteroid.dy;
-          ctxAsteroids.fillStyle = '#40E0D0';
-          ctxAsteroids.beginPath();
-          ctxAsteroids.arc(asteroid.x, asteroid.y, asteroid.size, 0, Math.PI * 2);
-          ctxAsteroids.fill();
-        });
-      }
-
-      function moveBullets() {
-        bullets.forEach((bullet, b) => {
-          bullet.x += bullet.dx;
-          bullet.y += bullet.dy;
-          ctxAsteroids.fillStyle = '#FFFFFF';
-          ctxAsteroids.beginPath();
-          ctxAsteroids.arc(bullet.x, bullet.y, 5, 0, Math.PI * 2);
-          ctxAsteroids.fill();
-          asteroids.forEach((asteroid, a) => {
-            if (Math.hypot(bullet.x - asteroid.x, bullet.y - asteroid.y) < asteroid.size) {
-              asteroids.splice(a, 1);
-              bullets.splice(b, 1);
-              scoreAsteroids += 10;
-              if (Math.random() < 0.5) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: -20, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
-            }
-          });
-        });
-      }
-
-      function checkCollisionAsteroids() {
-        asteroids.forEach(asteroid => {
-          if (Math.hypot(ship.x - asteroid.x, ship.y - asteroid.y) < asteroid.size + 15) {
-            endGame();
-          }
-        });
-      }
-
-      function gameLoopAsteroids() {
-        ctxAsteroids.clearRect(0, 0, canvasAsteroids.width, canvasAsteroids.height);
-        moveShip();
-        moveAsteroids();
-        moveBullets();
-        checkCollisionAsteroids();
-        document.getElementById('game-status').textContent = `Punkte: ${scoreAsteroids} | Steuerung: Links/Rechts/Drehung, Up/Down/Bewegung, Leertaste/Schießen | Neustart: R`;
-      }
-
-      function resetAsteroids() {
-        ship = { x: canvasAsteroids.width / 2, y: canvasAsteroids.height - 30, angle: 0, dx: 0, dy: 0, speed: 0 };
-        bullets = [];
-        asteroids = [];
-        scoreAsteroids = 0;
-        for (let i = 0; i < 5; i++) asteroids.push({ x: Math.random() * canvasAsteroids.width, y: Math.random() * canvasAsteroids.height / 2, dx: (Math.random() - 0.5) * 2, dy: (Math.random() + 0.5) * 2, size: 20 });
-        clearInterval(gameIntervalAsteroids);
-        gameIntervalAsteroids = setInterval(gameLoopAsteroids, 16);
-      }
-
       function endGame() {
         clearInterval(gameIntervalSnake);
         clearInterval(gameIntervalPong);
-        clearInterval(gameIntervalAsteroids);
         if (currentGame === 'snake' && score > personalHighScore) personalHighScore = score;
         else if (currentGame === 'pong' && scorePong > personalHighScore) personalHighScore = scorePong;
-        else if (currentGame === 'asteroids' && scoreAsteroids > personalHighScore) personalHighScore = scoreAsteroids;
         localStorage.setItem('personalHighScore', personalHighScore);
         updateHighScores();
-        document.getElementById('game-status').textContent = `${currentGame === 'snake' ? 'Game Over!' : ''} Punkte: ${currentGame === 'snake' ? score : currentGame === 'pong' ? scorePong : scoreAsteroids} | ${currentGame === 'snake' ? 'Power-Up: ' + powerUpTimer.toFixed(1) + 's | ' : ''}Steuerung: ${currentGame === 'asteroids' ? 'Links/Rechts/Drehung, Up/Down/Bewegung, Leertaste/Schießen' : 'Pfeiltasten'} | Neustart: R`;
+        document.getElementById('game-status').textContent = `${currentGame === 'snake' ? 'Game Over!' : ''} Punkte: ${currentGame === 'snake' ? score : currentGame === 'pong' ? scorePong : 0} | ${currentGame === 'snake' ? 'Power-Up: ' + powerUpTimer.toFixed(1) + 's | ' : ''}Steuerung: ${currentGame === 'snake' ? 'Pfeiltasten' : 'Pfeiltasten'} | Neustart: R`;
       }
 
       function updateHighScores() {
@@ -918,7 +795,6 @@
       renderCalendar();
       initSnake();
       initPong();
-      initAsteroids();
       showGame('pong'); // Standardmäßig Pong anzeigen
       updateHighScores();
     </script>
