@@ -244,6 +244,38 @@
         padding: 8px 0;
         border-bottom: 1px solid #333;
       }
+
+      /* Snake-Spiel-Styling */
+      .game-canvas {
+        border: 2px solid #ff1a1a;
+        background-color: #141414;
+        display: block;
+        margin: 20px auto;
+      }
+
+      .high-scores {
+        max-width: 300px;
+        margin: 20px auto;
+        background-color: #141414;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .high-scores h3 {
+        color: #ff1a1a;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+      }
+
+      .high-scores ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .high-scores li {
+        padding: 5px 0;
+        border-bottom: 1px solid #333;
+      }
     </style>
   </head>
   <body>
@@ -263,6 +295,7 @@
         </div>
       </div>
       <a href="#" onclick="showSection('results')">Ergebnisse</a>
+      <a href="#" onclick="showSection('bored')">Langeweile?</a>
       <a href="#" onclick="showSection('sponsors')">Sponsoren</a>
       <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
@@ -369,13 +402,28 @@
         </div>
       </div>
 
+      <!-- Langeweile-Sektion -->
+      <div id="bored-section" class="section">
+        <h2>Langeweile?</h2>
+        <canvas id="game-canvas" class="game-canvas" width="400" height="400"></canvas>
+        <p id="game-status">Punkte: 0 | Steuerung: Pfeiltasten | Neustart: R</p>
+        <div id="high-scores" class="high-scores">
+          <h3>Bestenliste</h3>
+          <ul id="high-scores-list"></ul>
+        </div>
+        <div id="name-input" style="display: none;">
+          <input type="text" id="player-name" placeholder="Dein Name">
+          <button class="button" onclick="saveScore()">Speichern</button>
+        </div>
+      </div>
+
       <!-- Sponsoren-Sektion -->
       <div id="sponsors-section" class="section">
         <h2>Sponsoren</h2>
       </div>
 
       <!-- Kontakt-Sektion -->
-      <div id="contact-section" class="contact-section section">
+      <div id="contact-section" class="section">
         <h2>Kontakt</h2>
         <h3>Unser Team:</h3>
         <p>
@@ -505,13 +553,152 @@
         ul.innerHTML = '';
       }
 
-      // Initiale Tabelle und Kalender rendern
+      // Snake-Spiel
+      const canvas = document.getElementById('game-canvas');
+      const ctx = canvas.getContext('2d');
+      let snake = [{ x: 10, y: 10 }];
+      let food = { x: 15, y: 15 };
+      let powerUp = null;
+      let dx = 0;
+      let dy = 0;
+      let score = 0;
+      let gameInterval;
+      let powerUpTimer = 0;
+      let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+
+      function initSnake() {
+        document.addEventListener('keydown', (e) => {
+          switch (e.key) {
+            case 'ArrowUp': if (dy === 0) { dx = 0; dy = -1; } break;
+            case 'ArrowDown': if (dy === 0) { dx = 0; dy = 1; } break;
+            case 'ArrowLeft': if (dx === 0) { dx = -1; dy = 0; } break;
+            case 'ArrowRight': if (dx === 0) { dx = 1; dy = 0; } break;
+            case 'r': case 'R': resetSnake(); break;
+          }
+        });
+        gameInterval = setInterval(gameLoop, 100);
+      }
+
+      function moveSnake() {
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+          score += powerUp ? 20 : 10; // Doppelte Punkte mit Power-Up
+          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
+          generateFood();
+        } else if (powerUp && head.x === powerUp.x && head.y === powerUp.y) {
+          powerUp = null;
+          powerUpTimer = 6;
+          document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
+        } else {
+          snake.pop();
+        }
+      }
+
+      function drawGame() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ff1a1a';
+        snake.forEach(segment => {
+          ctx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+        });
+        ctx.fillStyle = '#40E0D0'; // Türkisfarbenes Food
+        ctx.fillRect(food.x * 20, food.y * 20, 18, 18);
+        if (powerUp) {
+          ctx.fillStyle = '#FFFFFF'; // Weißes Power-Up
+          ctx.fillRect(powerUp.x * 20, powerUp.y * 20, 18, 18);
+        }
+      }
+
+      function checkCollision() {
+        const head = snake[0];
+        if (head.x < 0 || head.x >= canvas.width / 20 || head.y < 0 || head.y >= canvas.height / 20) {
+          endGame();
+          return true;
+        }
+        for (let i = 1; i < snake.length; i++) {
+          if (head.x === snake[i].x && head.y === snake[i].y) {
+            endGame();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function generateFood() {
+        food.x = Math.floor(Math.random() * (canvas.width / 20));
+        food.y = Math.floor(Math.random() * (canvas.height / 20));
+        if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+          generateFood();
+        }
+        if (Math.random() < 0.1 && !powerUp) { // 10% Chance für Power-Up
+          do {
+            powerUp = { x: Math.floor(Math.random() * (canvas.width / 20)), y: Math.floor(Math.random() * (canvas.height / 20)) };
+          } while (snake.some(segment => segment.x === powerUp.x && segment.y === powerUp.y) || (powerUp.x === food.x && powerUp.y === food.y));
+        }
+      }
+
+      function gameLoop() {
+        if (!checkCollision()) {
+          moveSnake();
+          if (powerUpTimer > 0) {
+            powerUpTimer -= 0.1;
+            if (powerUpTimer <= 0) powerUpTimer = 0;
+            document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s | Steuerung: Pfeiltasten | Neustart: R`;
+          }
+          drawGame();
+        }
+      }
+
+      function resetSnake() {
+        snake = [{ x: 10, y: 10 }];
+        dx = 0;
+        dy = 0;
+        score = 0;
+        powerUp = null;
+        powerUpTimer = 0;
+        document.getElementById('game-status').textContent = `Punkte: ${score} | Power-Up: ${powerUpTimer}s | Steuerung: Pfeiltasten | Neustart: R`;
+        clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, 100);
+        generateFood();
+      }
+
+      function endGame() {
+        clearInterval(gameInterval);
+        document.getElementById('game-status').textContent = `Game Over! Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s`;
+        document.getElementById('name-input').style.display = 'block';
+      }
+
+      function saveScore() {
+        const name = document.getElementById('player-name').value || 'Anonym';
+        highScores.push({ name, score });
+        highScores.sort((a, b) => b.score - a.score);
+        highScores = highScores.slice(0, 5); // Top 5
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+        updateHighScores();
+        document.getElementById('name-input').style.display = 'none';
+        document.getElementById('player-name').value = '';
+        resetSnake();
+      }
+
+      function updateHighScores() {
+        const ul = document.getElementById('high-scores-list');
+        ul.innerHTML = '';
+        highScores.forEach((entry, index) => {
+          const li = document.createElement('li');
+          li.textContent = `${index + 1}. ${entry.name}: ${entry.score} Punkte`;
+          ul.appendChild(li);
+        });
+      }
+
+      // Initiale Tabelle, Kalender und Spiel rendern
       championshipData.sort((a, b) => b.punkte - a.punkte);
       championshipData.forEach((row, index) => {
         row.platz = index + 1;
       });
       renderTable();
       renderCalendar();
+      initSnake();
+      updateHighScores();
     </script>
   </body>
 </html>
