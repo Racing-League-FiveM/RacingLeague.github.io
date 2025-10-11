@@ -324,6 +324,11 @@
         padding: 5px 0;
         border-bottom: 1px solid #333;
       }
+
+      /* Bild-Upload-Styling */
+      .image-upload {
+        margin: 10px 0;
+      }
     </style>
   </head>
   <body>
@@ -417,7 +422,8 @@
         <p>
           Name: Dominic Martinéz<br>
           Geboren: 15.06.2004<br>
-          Biographie: Ein Nigger der im Kosovo geboren wurde und dort mehrere Kriegsverbrechen begannen hat.
+          Biographie: Ein Nigger der im Kosovo geboren wurde und dort mehrere Kriegsverbrechen begannen hat.<br>
+          Bild: <input type="file" class="image-upload" accept="image/png" onchange="handleImageUpload(event)">
         </p>
       </div>
 
@@ -693,6 +699,17 @@
           // Hier könnten Saison-spezifische Daten geladen werden; aktuell bleibt es bei den Standarddaten
           renderTable();
           renderConstructorTable();
+        }
+      }
+
+      function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file && file.name === 'Dominic.png' && file.type === 'image/png') {
+          console.log('Bild "Dominic.png" erfolgreich ausgewählt!');
+          // Hier könntest du den Upload-Logik hinzufügen (z. B. Anzeige des Bildes oder Absenden an einen Server)
+        } else {
+          alert('Bitte lade nur ein Bild mit dem Namen "Dominic.png" im PNG-Format hoch.');
+          event.target.value = ''; // Eingabefeld zurücksetzen
         }
       }
 
