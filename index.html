@@ -12,7 +12,6 @@
         background-color: #0b0b0b;
         color: #f2f2f2;
       }
-
       header {
         background-color: #ff1a1a;
         padding: 25px 0;
@@ -20,7 +19,6 @@
         box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
         transition: background-color 0.3s, color 0.3s;
       }
-
       header h1 {
         margin: 0;
         font-size: 2.4em;
@@ -28,7 +26,6 @@
         color: #fff;
         transition: color 0.3s;
       }
-
       nav {
         background-color: #141414;
         padding: 12px 0;
@@ -36,7 +33,6 @@
         border-bottom: 2px solid #ff1a1a;
         position: relative;
       }
-
       nav a {
         color: #ffffff;
         text-decoration: none;
@@ -45,17 +41,14 @@
         transition: color 0.2s;
         cursor: pointer;
       }
-
       nav a:hover {
         color: #ff1a1a;
       }
-
       /* Hover-Dropdown für Teams */
       .dropdown {
         position: relative;
         display: inline-block;
       }
-
       .dropdown-content {
         display: none;
         position: absolute;
@@ -67,11 +60,9 @@
         top: 100%;
         left: 0;
       }
-
       .dropdown:hover .dropdown-content {
         display: block;
       }
-
       .dropdown-content a {
         color: #fff;
         padding: 8px 12px;
@@ -82,20 +73,23 @@
         text-align: left;
         transition: background-color 0.2s;
       }
-
       /* Team-spezifische Hover-Farben im Dropdown */
-      .dropdown-content a:nth-child(1):hover { background-color: #7c0000; }
+      .dropdown-content a:nth-child(1):hover {
+        background-color: #ff0054;
+        color: #000000 !important; /* Cherry-Blossom-Racing: schwarze Schrift */
+      }
       .dropdown-content a:nth-child(2):hover { background-color: #6102ae; }
       .dropdown-content a:nth-child(3):hover { background-color: #ff8f00; }
-      .dropdown-content a:nth-child(4):hover { background-color: #646464; color: #fff; }
-
+      .dropdown-content a:nth-child(4):hover { 
+        background-color: #646464; 
+        color: #fff; 
+      }
       /* Dropdown für Saisons */
       .season-dropdown {
         position: relative;
         display: inline-block;
         margin: 10px 0;
       }
-
       .season-dropdown-content {
         display: none;
         position: absolute;
@@ -107,11 +101,9 @@
         top: 100%;
         left: 0;
       }
-
       .season-dropdown:hover .season-dropdown-content {
         display: block;
       }
-
       .season-dropdown-content a {
         color: #fff;
         padding: 8px 12px;
@@ -123,29 +115,24 @@
         transition: background-color 0.2s;
         background-color: #383732;
       }
-
       .season-dropdown-content a:hover {
         background-color: #2a2a2a;
       }
-
       main {
         text-align: center;
         padding: 80px 20px;
       }
-
       main h2 {
         color: #ff1a1a;
         font-size: 2em;
         margin-bottom: 20px;
       }
-
       main p {
         color: #d9d9d9;
         font-size: 1.1em;
         max-width: 700px;
         margin: 0 auto;
       }
-
       .logo {
         display: block;
         margin: 20px auto;
@@ -153,7 +140,6 @@
         max-height: 200px;
         height: auto;
       }
-
       .button {
         display: inline-block;
         background-color: #ff1a1a;
@@ -165,40 +151,33 @@
         font-weight: bold;
         transition: background 0.3s;
       }
-
       .button:hover {
         background-color: #cc1414;
       }
-
       .game-button {
-        background-color: #40E0D0; /* Türkis */
-        color: #000000; /* Schwarze Schrift */
+        background-color: #40E0D0;
+        color: #000000;
         padding: 10px 20px;
         margin: 5px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
       }
-
       .game-button:hover {
         background-color: #33C2B7;
       }
-
       /* Sektionen */
       .section {
         display: none;
       }
-
       .section.active {
         display: block;
       }
-
       /* Teams-Sektion */
       .teams-section {
         max-width: 700px;
         margin: 0 auto;
       }
-
       /* Kontakt-Sektion */
       .contact-section {
         max-width: 700px;
@@ -207,20 +186,17 @@
         justify-content: space-around;
         flex-wrap: wrap;
       }
-
       .contact-section h3 {
         color: #ff1a1a;
         font-size: 1.5em;
         margin-bottom: 10px;
       }
-
       .contact-section p {
         color: #d9d9d9;
         font-size: 1em;
         margin: 5px 0;
-        flex-basis: 45%; /* Anpassbar für nebeneinander */
+        flex-basis: 45%;
       }
-
       /* Team-Details */
       .team-details {
         display: none;
@@ -229,23 +205,19 @@
         border-radius: 5px;
         margin-top: 20px;
       }
-
       .team-details.active {
         display: block;
       }
-
       .team-details h3 {
         color: #fff;
         font-size: 1.5em;
         margin-bottom: 10px;
         padding: 5px 10px;
       }
-
       .team-details p {
         color: #d9d9d9;
         font-size: 1em;
       }
-
       .results-table {
         max-width: 700px;
         margin: 20px auto;
@@ -254,7 +226,6 @@
         border-radius: 5px;
         overflow: hidden;
       }
-
       .results-table th,
       .results-table td {
         padding: 12px;
@@ -262,21 +233,17 @@
         color: #d9d9d9;
         border-bottom: 1px solid #333;
       }
-
       .results-table th {
         background-color: #ff1a1a;
         color: #fff;
         font-weight: bold;
       }
-
       .results-table tr:nth-child(even) {
         background-color: #1a1a1a;
       }
-
       .results-table tr:hover {
         background-color: #2a2a2a;
       }
-
       /* Kalender-Styling */
       .calendar {
         max-width: 700px;
@@ -285,13 +252,11 @@
         border-radius: 5px;
         padding: 15px;
       }
-
       .calendar h3 {
         color: #ff1a1a;
         font-size: 1.5em;
         margin-bottom: 10px;
       }
-
       /* Snake-Spiel-Styling */
       .game-canvas {
         border: 2px solid #ff1a1a;
@@ -300,7 +265,6 @@
         margin: 20px auto;
         display: none;
       }
-
       .high-scores {
         max-width: 300px;
         margin: 20px auto;
@@ -308,23 +272,19 @@
         padding: 10px;
         border-radius: 5px;
       }
-
       .high-scores h3 {
         color: #ff1a1a;
         font-size: 1.2em;
         margin-bottom: 5px;
       }
-
       .high-scores ul {
         list-style: none;
         padding: 0;
       }
-
       .high-scores li {
         padding: 5px 0;
         border-bottom: 1px solid #333;
       }
-
       /* Anpassung für Championships */
       .championships-container {
         display: flex;
@@ -333,12 +293,10 @@
         max-width: 700px;
         margin: 0 auto;
       }
-
       .championships-column {
         text-align: center;
         margin: 0 20px;
       }
-
       .championships-image {
         margin-bottom: 10px;
       }
@@ -346,15 +304,14 @@
   </head>
   <body>
     <header>
-      <h1>🏎️ Racing League 🚗</h1>
+      <h1>Racing League</h1>
     </header>
-
     <nav>
       <a href="#" onclick="showSection('home')">Start</a>
       <div class="dropdown">
         <a href="#" class="dropbtn" onclick="showSection('teams')">Teams</a>
         <div class="dropdown-content">
-          <a href="#" onclick="showSection('teams', 'team1')">Team 1</a>
+          <a href="#" onclick="showSection('teams', 'team1')">Cherry-Blossom-Racing</a>
           <a href="#" onclick="showSection('teams', 'team2')">Team 2</a>
           <a href="#" onclick="showSection('teams', 'team3')">Team 3</a>
           <a href="#" onclick="showSection('teams', 'team4')">Team 4</a>
@@ -368,7 +325,6 @@
       <a href="#" onclick="showSection('bored')">Langeweile?</a>
       <a href="#" onclick="showSection('contact')">Kontakt</a>
     </nav>
-
     <main>
       <!-- Willkommen-Sektion -->
       <div id="home-section" class="section active">
@@ -379,19 +335,18 @@
         </p>
         <a href="#" class="button" onclick="showAllSections()">Mehr erfahren</a>
       </div>
-
       <!-- Teams-Sektion -->
       <div id="teams-section" class="teams-section section">
         <h2>Unsere Teams</h2>
-        <!-- Team 1 -->
+        <!-- Team 1: Cherry-Blossom-Racing -->
         <div id="team1-details" class="team-details">
-          <h3 style="background-color: #7c0000;">Team 1</h3>
+          <h3 style="background-color: #ff0054;">Cherry-Blossom-Racing</h3>
           <p>
-            <strong>Gründung:</strong> <br>
-            <strong>Fahrer:</strong> <br>
-            <strong>Erfolge:</strong> <br>
-            <strong>Beschreibung:</strong> <br>
-            <strong>Bild des Fahrzeugs:</strong> 
+            <strong>Gründung:</strong> -<br>
+            <strong>Fahrer:</strong> Dominic Martinéz & Kimi<br>
+            <strong>Erfolge:</strong> -<br>
+            <strong>Beschreibung:</strong> -<br>
+            <strong>Bild des Fahrzeugs:</strong> -
           </p>
         </div>
         <!-- Team 2 -->
@@ -428,18 +383,15 @@
           </p>
         </div>
       </div>
-
       <!-- Fahrer-Sektion -->
       <div id="fahrer-section" class="section">
         <h2>Fahrer</h2>
         <p>
           Name: Dominic Martinéz<br>
           Geboren: 14.06.2004<br>
-          Biographie: Ein Nigger der im Kosovo geboren wurde und dort mehrere Kriegsverbrechen begannen hat.<br>
           Bild: <img src="./Dominic.png" alt="Dominic Martinéz" class="logo">
         </p>
       </div>
-
       <!-- Ergebnisse-Sektion -->
       <div id="results-section" class="section">
         <h2>Fahrer-Championship</h2>
@@ -490,7 +442,6 @@
           <iframe src="https://kalender.digital/08c77cca544fa891840a" width="100%" height="400" frameborder="0"></iframe>
         </div>
       </div>
-
       <!-- Championships-Sektion -->
       <div id="championships-section" class="section">
         <div class="championships-container">
@@ -516,7 +467,6 @@
           </div>
         </div>
       </div>
-
       <!-- Langeweile-Sektion -->
       <div id="bored-section" class="section">
         <h2>Langeweile?</h2>
@@ -527,12 +477,10 @@
           <ul id="high-scores-list"></ul>
         </div>
       </div>
-
       <!-- Sponsoren-Sektion -->
       <div id="sponsors-section" class="section">
         <h2>Sponsoren</h2>
       </div>
-
       <!-- Werde eine Legende!-Sektion -->
       <div id="legend-section" class="section">
         <h2>Werde eine Legende!</h2>
@@ -551,7 +499,6 @@
           Bestehst du die Rookie-Prüfung, darfst du endlich in einem Rennen ans Steuer und zeigen, was in dir steckt!
         </p>
       </div>
-
       <!-- Kontakt-Sektion -->
       <div id="contact-section" class="section">
         <h2>Kontakt</h2>
@@ -574,15 +521,12 @@
         </div>
       </div>
     </main>
-
     <footer>
       © 2025 Racing League. Alle Rechte vorbehalten.
     </footer>
-
     <script>
       // Debugging-Log am Anfang
       console.log("Skript wird geladen...");
-
       // Initiale Daten im Speicher (nicht persistent)
       let championshipData = [
         {platz: 1, fahrer: 'Fahrer 1', team: 'Team 1', punkte: 0},
@@ -594,14 +538,12 @@
         {platz: 7, fahrer: 'Fahrer 7', team: 'Team 4', punkte: 0},
         {platz: 8, fahrer: 'Fahrer 8', team: 'Team 4', punkte: 0}
       ];
-
       let constructorData = [
         {platz: 1, team: 'Team 1', punkte: 0},
         {platz: 2, team: 'Team 2', punkte: 0},
         {platz: 3, team: 'Team 3', punkte: 0},
         {platz: 4, team: 'Team 4', punkte: 0}
       ];
-
       function showSection(sectionId, teamId = '') {
         console.log(`Versuche, Sektion ${sectionId} zu zeigen, Team: ${teamId}`);
         document.querySelectorAll('.section').forEach(section => {
@@ -613,7 +555,6 @@
         } else {
           console.error(`Sektion ${sectionId}-section nicht gefunden!`);
         }
-
         // Header-Farbe und Schriftfarbe zurücksetzen
         const header = document.querySelector('header');
         const headerH1 = document.querySelector('header h1');
@@ -621,7 +562,6 @@
           header.style.backgroundColor = '#ff1a1a';
           headerH1.style.color = '#fff';
         }
-
         if (sectionId === 'teams') {
           document.querySelectorAll('.team-details').forEach(detail => {
             detail.classList.remove('active');
@@ -632,7 +572,7 @@
               teamDetail.classList.add('active');
               switch (teamId) {
                 case 'team1':
-                  header.style.backgroundColor = '#7c0000';
+                  header.style.backgroundColor = '#ff0054';
                   break;
                 case 'team2':
                   header.style.backgroundColor = '#6102ae';
@@ -662,7 +602,6 @@
           document.getElementById('game-status').style.display = 'none';
         }
       }
-
       function showAllSections() {
         console.log("Zeige alle Sektionen...");
         document.querySelectorAll('.section').forEach(section => {
@@ -673,26 +612,21 @@
         document.querySelectorAll('.team-details').forEach(detail => {
           detail.classList.add('active');
         });
-
         const header = document.querySelector('header');
         const headerH1 = document.querySelector('header h1');
         if (header && headerH1) {
           header.style.backgroundColor = '#ff1a1a';
           headerH1.style.color = '#fff';
         }
-
         if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
           const teamsSection = document.getElementById('teams-section');
           if (teamsSection) {
             teamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }
-
-        // Snake nicht anzeigen
         document.getElementById('game-canvas').style.display = 'none';
         document.getElementById('game-status').style.display = 'none';
       }
-
       function renderTable() {
         const tbody = document.getElementById('table-body');
         if (tbody) {
@@ -709,7 +643,6 @@
           });
         }
       }
-
       function renderConstructorTable() {
         const tbody = document.getElementById('constructor-body');
         if (tbody) {
@@ -725,17 +658,13 @@
           });
         }
       }
-
       function selectSeason(season) {
         console.log(`Saison ${season} ausgewählt`);
         if (season === 'Saison 1') {
-          // Hier könnten Saison-spezifische Daten geladen werden; aktuell bleibt es bei den Standarddaten
           renderTable();
           renderConstructorTable();
         }
       }
-
-      // Spielsteuerung
       let currentGame = 'snake';
       function showGame(game) {
         currentGame = game;
@@ -745,8 +674,6 @@
           resetSnake();
         }
       }
-
-      // Snake-Spiel
       const canvasSnake = document.getElementById('game-canvas');
       const ctxSnake = canvasSnake.getContext('2d');
       let snake = [{ x: 10, y: 10 }];
@@ -758,7 +685,6 @@
       let gameIntervalSnake;
       let powerUpTimer = 0;
       let personalHighScore = localStorage.getItem('personalHighScore') || 0;
-
       function initSnake() {
         console.log("Initialisiere Snake...");
         document.addEventListener('keydown', (e) => {
@@ -774,7 +700,6 @@
         });
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
       }
-
       function moveSnake() {
         const head = { x: snake[0].x + dx, y: snake[0].y + dy };
         snake.unshift(head);
@@ -790,7 +715,6 @@
           snake.pop();
         }
       }
-
       function drawGame() {
         ctxSnake.clearRect(0, 0, canvasSnake.width, canvasSnake.height);
         ctxSnake.fillStyle = '#ff1a1a';
@@ -804,7 +728,6 @@
           ctxSnake.fillRect(powerUp.x * 20, powerUp.y * 20, 18, 18);
         }
       }
-
       function checkCollision() {
         const head = snake[0];
         if (head.x < 0 || head.x >= canvasSnake.width / 20 || head.y < 0 || head.y >= canvasSnake.height / 20) {
@@ -819,7 +742,6 @@
         }
         return false;
       }
-
       function generateFood() {
         food.x = Math.floor(Math.random() * (canvasSnake.width / 20));
         food.y = Math.floor(Math.random() * (canvasSnake.height / 20));
@@ -832,7 +754,6 @@
           } while (snake.some(segment => segment.x === powerUp.x && segment.y === powerUp.y) || (powerUp.x === food.x && powerUp.y === food.y));
         }
       }
-
       function gameLoopSnake() {
         if (!checkCollision()) {
           moveSnake();
@@ -844,7 +765,6 @@
           drawGame();
         }
       }
-
       function resetSnake() {
         snake = [{ x: 10, y: 10 }];
         dx = 0;
@@ -857,7 +777,6 @@
         gameIntervalSnake = setInterval(gameLoopSnake, 100);
         generateFood();
       }
-
       function endGame() {
         clearInterval(gameIntervalSnake);
         if (currentGame === 'snake' && score > personalHighScore) personalHighScore = score;
@@ -865,7 +784,6 @@
         updateHighScores();
         document.getElementById('game-status').textContent = `Game Over! Punkte: ${score} | Power-Up: ${powerUpTimer.toFixed(1)}s | Steuerung: Pfeiltasten | Neustart: R`;
       }
-
       function updateHighScores() {
         const ul = document.getElementById('high-scores-list');
         if (ul) {
@@ -875,8 +793,6 @@
           ul.appendChild(li);
         }
       }
-
-      // Initiale Tabelle und Spiele rendern
       championshipData.sort((a, b) => b.punkte - a.punkte);
       championshipData.forEach((row, index) => {
         row.platz = index + 1;
@@ -888,10 +804,7 @@
       });
       renderConstructorTable();
       initSnake();
-      // Kein automatisches Anzeigen von Snake hier
       updateHighScores();
-
-      // Sicherstellen, dass das Skript nach DOM-Laden ausgeführt wird
       document.addEventListener('DOMContentLoaded', () => {
         console.log("DOM vollständig geladen.");
       });
