@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Langeweile? – Racing League</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #0b0b0b;
+      color: #f2f2f2;
+    }
+
+    header {
+      background-color: #ff1a1a;
+      padding: 25px 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(255, 26, 26, 0.3);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4em;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    nav {
+      background-color: #141414;
+      padding: 12px 0;
+      text-align: center;
+      border-bottom: 2px solid #ff1a1a;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #ff1a1a;
+    }
+
+    main {
+      text-align: center;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: #ff1a1a;
+      font-size: 2em;
+      margin: 40px 0 20px;
+    }
+
+    .game-container {
+      background: #141414;
+      border-radius: 10px;
+      padding: 25px;
+      margin: 30px auto;
+      max-width: 520px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .game-canvas {
+      border: 3px solid #ff1a1a;
+      background: #0b0b0b;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .game-info {
+      font-size: 1.15em;
+      margin: 15px 0;
+      min-height: 1.6em;
+    }
+
+    .game-buttons {
+      margin: 25px 0 15px;
+    }
+
+    button {
+      background: #ff1a1a;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin: 8px 4px;
+      font-size: 1.1em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #cc1414;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #game-status, #blackjack-status {
+      font-size: 1.3em;
+      margin: 20px 0;
+      min-height: 1.6em;
+    }
+
+    .card {
+      display: inline-block;
+      width: 70px;
+      height: 100px;
+      background: white;
+      color: black;
+      border-radius: 8px;
+      margin: 6px;
+      line-height: 100px;
+      font-size: 1.8em;
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .card.red { color: #c00; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏎️ Langeweile? Spiel doch was! 🚗</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Zurück zur Hauptseite</a>
+  </nav>
+
+  <main>
+
+    <!-- Snake -->
+    <h2>Snake</h2>
+    <div class="game-container">
+      <canvas id="snake-canvas" class="game-canvas" width="400" height="400"></canvas>
+      <div class="game-info" id="snake-status">
+        Punkte: 0  |  Power-Up: 0s  |  Pfeiltasten = bewegen  |  R = Neustart
+      </div>
+      <div class="game-buttons">
+        <button onclick="resetSnake()">Neues Spiel</button>
+      </div>
+      <div style="margin-top:15px;">
+        <strong>Dein Highscore:</strong> <span id="snake-highscore">0</span> Punkte
+      </div>
+    </div>
+
+    <!-- 21 (Blackjack light) -->
+    <h2>21 Punkte</h2>
+    <div class="game-container">
+      <div id="game-status" style="margin-bottom:20px;">
+        Drücke „Neues Spiel“, um zu starten
+      </div>
+
+      <div style="margin:25px 0;">
+        <strong>Deine Karten:</strong><br>
+        <div id="player-cards"></div>
+        <div id="player-sum">Summe: 0</div>
+      </div>
+
+      <div style="margin:25px 0;">
+        <strong>Bank:</strong><br>
+        <div id="dealer-cards"></div>
+        <div id="dealer-sum">Summe: ?</div>
+      </div>
+
+      <div class="game-buttons">
+        <button id="btn-hit"    onclick="hit()"    disabled>Karte ziehen</button>
+        <button id="btn-stand"  onclick="stand()"  disabled>Stopp</button>
+        <button onclick="startBlackjack()">Neues Spiel</button>
+      </div>
+
+      <div id="blackjack-result" style="font-size:1.4em; margin-top:25px; min-height:1.4em;"></div>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2025 Racing League – Langeweile hat hier keine Chance!
+  </footer>
+
+  <script>
+    // =============================================
+    //  Snake
+    // =============================================
+
+    const snakeCanvas = document.getElementById('snake-canvas');
+    const ctx = snakeCanvas.getContext('2d');
+    const grid = 20;
+    let snake = [{x:10, y:10}];
+    let dx = 1, dy = 0;
+    let food, powerUp;
+    let score = 0;
+    let powerUpTimer = 0;
+    let interval;
+
+    function placeFood() {
+      food = {
+        x: Math.floor(Math.random() * (snakeCanvas.width / grid)),
+        y: Math.floor(Math.random() * (snakeCanvas.height / grid))
+      };
+    }
+
+    function placePowerUp() {
+      if (Math.random() < 0.15 && !powerUp) {
+        powerUp = {
+          x: Math.floor(Math.random() * (snakeCanvas.width / grid)),
+          y: Math.floor(Math.random() * (snakeCanvas.height / grid))
+        };
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = '#0b0b0b';
+      ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+      ctx.fillStyle = '#ff1a1a';
+      snake.forEach(s => ctx.fillRect(s.x*grid+1, s.y*grid+1, grid-2, grid-2));
+
+      ctx.fillStyle = '#40E0D0';
+      ctx.fillRect(food.x*grid+1, food.y*grid+1, grid-2, grid-2);
+
+      if (powerUp) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(powerUp.x*grid+1, powerUp.y*grid+1, grid-2, grid-2);
+      }
+    }
+
+    function update() {
+      const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
+      // Wandkollision
+      if (head.x < 0 || head.x >= snakeCanvas.width/grid ||
+          head.y < 0 || head.y >= snakeCanvas.height/grid) {
+        gameOver();
+        return;
+      }
+
+      // Selbstkollision
+      if (snake.some(s => s.x === head.x && s.y === head.y)) {
+        gameOver();
+        return;
+      }
+
+      snake.unshift(head);
+
+      // Essen
+      if (head.x === food.x && head.y === food.y) {
+        score += powerUpTimer > 0 ? 20 : 10;
+        placeFood();
+        placePowerUp();
+      } else if (powerUp && head.x === powerUp.x && head.y === powerUp.y) {
+        powerUp = null;
+        powerUpTimer = 8; // 8 Sekunden Power-Up
+      } else {
+        snake.pop();
+      }
+
+      if (powerUpTimer > 0) powerUpTimer -= 0.1;
+
+      document.getElementById('snake-status').textContent =
+        `Punkte: ${score}  |  Power-Up: ${powerUpTimer.toFixed(1)}s  |  Pfeiltasten = bewegen  |  R = Neustart`;
+
+      draw();
+    }
+
+    function gameOver() {
+      clearInterval(interval);
+      if (score > (localStorage.getItem('snakeHigh') || 0)) {
+        localStorage.setItem('snakeHigh', score);
+        document.getElementById('snake-highscore').textContent = score;
+      }
+      document.getElementById('snake-status').textContent =
+        `Game Over! Punkte: ${score}  |  R = Neustart`;
+    }
+
+    function resetSnake() {
+      snake = [{x:10, y:10}];
+      dx = 1; dy = 0;
+      score = 0;
+      powerUp = null;
+      powerUpTimer = 0;
+      placeFood();
+      document.getElementById('snake-status').textContent =
+        `Punkte: 0  |  Power-Up: 0s  |  Pfeiltasten = bewegen  |  R = Neustart`;
+      document.getElementById('snake-highscore').textContent =
+        localStorage.getItem('snakeHigh') || 0;
+      clearInterval(interval);
+      interval = setInterval(update, 120);
+      draw();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'r' || e.key === 'R') {
+        resetSnake();
+        return;
+      }
+      if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+      }
+      switch(e.key) {
+        case 'ArrowUp':    if (dy !== 1)  { dx=0; dy=-1; } break;
+        case 'ArrowDown':  if (dy !== -1) { dx=0; dy=1;  } break;
+        case 'ArrowLeft':  if (dx !== 1)  { dx=-1; dy=0; } break;
+        case 'ArrowRight': if (dx !== -1) { dx=1;  dy=0; } break;
+      }
+    });
+
+    // =============================================
+    //  21 Punkte (einfache Blackjack-Variante)
+    // =============================================
+
+    let deck = [];
+    let playerHand = [];
+    let dealerHand = [];
+    let gameActive = false;
+
+    function createDeck() {
+      const suits = ['♥','♦','♣','♠'];
+      const values = ['2','3','4','5','6','7','8','9','10','B','D','K','A'];
+      deck = [];
+      for (let suit of suits) {
+        for (let val of values) {
+          deck.push({value: val, suit: suit});
+        }
+      }
+      // Einfaches Mischen
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+
+    function cardValue(card) {
+      if (['B','D','K'].includes(card.value)) return 10;
+      if (card.value === 'A') return 11;
+      return parseInt(card.value);
+    }
+
+    function handValue(hand) {
+      let val = 0;
+      let aces = 0;
+      for (let card of hand) {
+        let v = cardValue(card);
+        if (v === 11) aces++;
+        val += v;
+      }
+      while (val > 21 && aces > 0) {
+        val -= 10;
+        aces--;
+      }
+      return val;
+    }
+
+    function renderCards(hand, elementId, hideFirst = false) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = '';
+      hand.forEach((card, i) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        if (card.suit === '♥' || card.suit === '♦') div.classList.add('red');
+        div.textContent = hideFirst && i === 0 ? '?' : `${card.value}${card.suit}`;
+        container.appendChild(div);
+      });
+    }
+
+    function updateStatus() {
+      const playerSum = handValue(playerHand);
+      const dealerSum = handValue(dealerHand);
+
+      document.getElementById('player-sum').textContent = `Summe: ${playerSum}`;
+      document.getElementById('dealer-sum').textContent = gameActive ? 'Summe: ?' : `Summe: ${dealerSum}`;
+
+      renderCards(playerHand, 'player-cards');
+      renderCards(dealerHand, 'dealer-cards', gameActive);
+    }
+
+    function startBlackjack() {
+      createDeck();
+      playerHand = [deck.pop(), deck.pop()];
+      dealerHand = [deck.pop(), deck.pop()];
+      gameActive = true;
+      score = 0;
+
+      document.getElementById('game-status').textContent = "Viel Erfolg!";
+      document.getElementById('blackjack-result').textContent = "";
+      document.getElementById('btn-hit').disabled = false;
+      document.getElementById('btn-stand').disabled = false;
+
+      updateStatus();
+
+      // Sofort prüfen ob Spieler schon 21 hat
+      if (handValue(playerHand) === 21) {
+        stand();
+      }
+    }
+
+    function hit() {
+      if (!gameActive) return;
+      playerHand.push(deck.pop());
+      updateStatus();
+
+      if (handValue(playerHand) > 21) {
+        endGame("Du hast verloren! (über 21)");
+      }
+    }
+
+    function stand() {
+      if (!gameActive) return;
+      gameActive = false;
+      document.getElementById('btn-hit').disabled = true;
+      document.getElementById('btn-stand').disabled = true;
+
+      // Dealer zieht bis mind. 17
+      while (handValue(dealerHand) < 17) {
+        dealerHand.push(deck.pop());
+      }
+
+      updateStatus();
+
+      const player = handValue(playerHand);
+      const dealer = handValue(dealerHand);
+
+      if (dealer > 21) {
+        endGame("Du gewinnst! Bank über 21");
+      } else if (player > dealer) {
+        endGame("Du gewinnst!");
+      } else if (player < dealer) {
+        endGame("Bank gewinnt!");
+      } else {
+        endGame("Unentschieden!");
+      }
+    }
+
+    function endGame(message) {
+      document.getElementById('blackjack-result').textContent = message;
+      document.getElementById('btn-hit').disabled = true;
+      document.getElementById('btn-stand').disabled = true;
+    }
+
+    // Initialisierung
+    document.addEventListener('DOMContentLoaded', () => {
+      // Snake Highscore laden
+      document.getElementById('snake-highscore').textContent =
+        localStorage.getItem('snakeHigh') || 0;
+
+      // Snake starten (einmalig)
+      placeFood();
+      interval = setInterval(() => {
+        if (document.getElementById('snake-canvas').offsetParent !== null) {
+          update();
+        }
+      }, 130);
+
+      // 21 – nichts automatisch starten
+    });
+
+    function resetSnake() {
+      snake = [{x:10, y:10}];
+      dx = 1; dy = 0;
+      score = 0;
+      powerUp = null;
+      powerUpTimer = 0;
+      placeFood();
+      document.getElementById('snake-status').textContent =
+        `Punkte: 0  |  Power-Up: 0s  |  Pfeiltasten = bewegen  |  R = Neustart`;
+      if (score > (localStorage.getItem('snakeHigh') || 0)) {
+        localStorage.setItem('snakeHigh', score);
+        document.getElementById('snake-highscore').textContent = score;
+      }
+    }
+
+    // Tastatur für Snake
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('snake-canvas').offsetParent) return;
+
+      switch(e.key.toLowerCase()) {
+        case 'r': resetSnake(); break;
+        case 'arrowup':    if (dy !== 1)  { dx=0; dy=-1; } break;
+        case 'arrowdown':  if (dy !== -1) { dx=0; dy=1;  } break;
+        case 'arrowleft':  if (dx !== 1)  { dx=-1; dy=0; } break;
+        case 'arrowright': if (dx !== -1) { dx=1;  dy=0; } break;
+      }
+    });
+  </script>
+</body>
+</html>
